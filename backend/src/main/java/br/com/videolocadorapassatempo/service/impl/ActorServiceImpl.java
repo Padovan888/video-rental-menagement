@@ -7,14 +7,15 @@ import br.com.videolocadorapassatempo.service.dto.ActorDto;
 import br.com.videolocadorapassatempo.service.exception.ActorException;
 import br.com.videolocadorapassatempo.service.mapper.ActorMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ActorServiceImpl implements ActorService {
 
     private final ActorRepository actorRepository;
@@ -25,14 +26,14 @@ public class ActorServiceImpl implements ActorService {
         return actorMapper.toDto(actorRepository.findAll());
     }
 
-    public ActorDto findById(UUID id) {
-        Optional<ActorModel> authorModel = actorRepository.findById(id);
+    public ActorDto findById(Long id) {
+        Optional<ActorModel> actorModel = actorRepository.findById(id);
 
-        if(!authorModel.isPresent()) {
-            new ActorException("Conflito: O autor não existe!");
+        if(!actorModel.isPresent()) {
+            throw new ActorException("Autor não encontrado");
         }
 
-        return actorMapper.toDto(authorModel.get());
+        return actorMapper.toDto(actorModel.get());
     }
 
     public ActorDto save(ActorDto actorDto) {
@@ -40,7 +41,7 @@ public class ActorServiceImpl implements ActorService {
         return actorMapper.toDto(actorRepository.save(actorModel));
     }
 
-    public void deleteById(UUID id) {
+    public void deleteById(Long id) {
         actorRepository.deleteById(id);
     }
 

@@ -9,10 +9,10 @@ public interface ActorService {
 
     public List<ActorDto> findAll();
 
-    public ActorDto findById(UUID id);
+    public ActorDto findById(Long id);
 
     public ActorDto save(ActorDto actorDto);
 
-    public void deleteById(UUID id);
+    public void deleteById(Long id);
 
 }

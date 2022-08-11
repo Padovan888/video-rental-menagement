@@ -5,7 +5,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.UUID;
 
 @Entity
 @Table(name = "actor")
@@ -14,8 +13,9 @@ import java.util.UUID;
 public class ActorModel implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_actor")
+    @SequenceGenerator(name = "sequence_actor", sequenceName = "sequence_actor", allocationSize = 1)
+    private Long id;
 
     @Column(name = "name", nullable = false)
     private String name;

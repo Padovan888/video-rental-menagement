@@ -25,9 +25,8 @@ public class ActorController {
         return ResponseEntity.status(HttpStatus.OK).body(actorService.findAll());
     }
 
-    @Transactional
     @GetMapping("/{id}")
-    public ResponseEntity<ActorDto> findById(@PathVariable UUID id) {
+    public ResponseEntity<ActorDto> findById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(actorService.findById(id));
     }
 

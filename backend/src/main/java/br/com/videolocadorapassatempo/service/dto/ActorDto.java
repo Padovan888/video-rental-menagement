@@ -8,13 +8,12 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.UUID;
 
 @Getter
 @Setter
 public class ActorDto implements Serializable {
 
-    private UUID id;
+    private Long id;
 
     @NotEmpty(message = "O campo nome não pode ser vazio !")
     @NotNull(message = "O campo nome não pode ser nulo !")
