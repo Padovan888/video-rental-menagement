@@ -44,8 +44,8 @@ public class ValidationHandler extends ResponseEntityExceptionHandler {
         return getExceptionResponseEntity(HttpStatus.BAD_REQUEST, request, validationErrors);
     }
 
-    @ExceptionHandler(ActorException.class)
-    public ResponseEntity<Object> handleException(ActorException exception, WebRequest request) {
+    @ExceptionHandler(EntityException.class)
+    public ResponseEntity<Object> handleException(EntityException exception, WebRequest request) {
         return getExceptionResponseEntity(HttpStatus.BAD_REQUEST, request, Collections.singletonList(exception.getMessage()));
     }
 

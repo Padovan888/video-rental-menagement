@@ -11,7 +11,9 @@ public interface ActorService {
 
     public ActorDto findById(Long id);
 
-    public ActorDto save(ActorDto actorDto);
+    public ActorDto create(ActorDto actorDto);
+
+    public ActorDto update(ActorDto actorDto);
 
     public void deleteById(Long id);
 

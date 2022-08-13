@@ -8,14 +8,4 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface ActorMapper extends EntityMapper<ActorDto, ActorModel>{
 
-    @Override
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "name", target = "name")
-    ActorDto toDto(ActorModel entity);
-
-    @Override
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "name", target = "name")
-    ActorModel toEntity(ActorDto dto);
-
 }
