@@ -6,15 +6,22 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd
         http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.5.xsd">
 
-        <changeSet id="20220807153530-1" author="Mateus Padovan Pereira">
-            <createTable tableName="author">
-                <column name="id" type="varchar(36)">
+        <changeSet id="20220811134045-1" author="Mateus Padovan Pereira">
+            <createTable tableName="actor">
+                <column name="id" type="bigint">
                     <constraints primaryKey="true"></constraints>
                 </column>
                 <column name="name" type="varchar(50)">
                     <constraints nullable="false"></constraints>
                 </column>
             </createTable>
+        </changeSet>
+    
+        <changeSet id="20220811134935-2" author="Mateus Padovan Pereira">
+            <createSequence sequenceName="sequence_actor"
+                            dataType="bigint"
+                            startValue="1"
+                            incrementBy="1" ></createSequence>
         </changeSet>
 
 </databaseChangeLog>
