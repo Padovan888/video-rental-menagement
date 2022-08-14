@@ -7,5 +7,7 @@
         http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.5.xsd">
 
         <include file="db/changelog/files/20220811133940_create_table_actor.xml"></include>
+        <include file="db/changelog/files/20220814121440_create_table_director.xml"></include>
+        <include file="db/changelog/files/20220814172735_create_table_class.xml"></include>
 
 </databaseChangeLog>
