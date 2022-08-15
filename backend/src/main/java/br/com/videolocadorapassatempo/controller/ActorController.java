@@ -50,7 +50,7 @@ public class ActorController {
 
     @DeleteMapping("/{id}")
     @ApiOperation("Exclui um ator do sistema")
-    public ResponseEntity<String> deleteById(@PathVariable Long id) {
+    public ResponseEntity deleteById(@PathVariable Long id) {
         actorService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).body("Autor deletado com sucesso!");
     }
