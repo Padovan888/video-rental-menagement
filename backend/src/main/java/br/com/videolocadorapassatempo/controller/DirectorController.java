@@ -47,9 +47,9 @@ public class DirectorController {
 
     @DeleteMapping("/{id}")
     @ApiOperation("Exclui um diretor do sistema")
-    public ResponseEntity<String> deleteById(@PathVariable Long id) {
+    public ResponseEntity deleteById(@PathVariable Long id) {
         directorService.deleteById(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Diretor deletado com sucesso!");
+        return ResponseEntity.noContent().build();
     }
 
 }

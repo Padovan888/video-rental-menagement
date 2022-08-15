@@ -47,9 +47,9 @@ public class ClassController {
 
     @DeleteMapping("/{id}")
     @ApiOperation("Exclui uma classe do sistema")
-    public ResponseEntity<String> deleteById(@PathVariable Long id) {
+    public ResponseEntity deleteById(@PathVariable Long id) {
         classService.deleteById(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Classe deletada com sucesso!");
+        return ResponseEntity.noContent().build();
     }
 
 }
