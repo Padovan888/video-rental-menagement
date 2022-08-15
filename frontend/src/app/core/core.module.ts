@@ -5,8 +5,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { FooterComponent } from './footer/footer.component';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
-import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzMessageModule } from 'ng-zorro-antd/message';
+
 
 @NgModule({
   imports: [
@@ -15,8 +16,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     BrowserModule,
     BrowserAnimationsModule,
     NzLayoutModule,
-    NzMenuModule,
-    NzIconModule
+    NzIconModule,
+    NzMessageModule
   ],
   declarations: [
     FooterComponent,
