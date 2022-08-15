@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'frontend';
+  isSiderClosed: boolean = false;
+
+  handleToggleSider(isClosed: boolean): void {
+    this.isSiderClosed = isClosed;
+  }
 }

@@ -1,8 +1,13 @@
 nz-layout:first-child {
-  height: 100vh;
+  min-height: 100vh;
 }
 
 nz-sider {
+  overflow: auto;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  z-index: 1;
   figure {
     padding: 0.6rem;
   }
@@ -16,8 +21,16 @@ nz-header {
   padding: 0;
 }
 
+.small-margin {
+  margin-left: 80px;
+}
+
+.big-margin {
+  margin-left: 200px;
+}
+
 nz-content {
-  margin: 0 16px;
+  margin: 0 16px 1rem 16px;
 }
 
 nz-breadcrumb {
@@ -28,8 +41,4 @@ nz-breadcrumb {
   padding: 24px;
   background: #fff;
   min-height: 360px;
-}
-
-nz-footer {
-  text-align: center;
 }
