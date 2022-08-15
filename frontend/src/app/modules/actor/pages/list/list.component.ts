@@ -75,7 +75,10 @@ export class ListComponent implements OnInit {
 
   handleDeleteActor(id: number): void {
     this.actorService.delete(id).subscribe({
-      next: () => this.utilsService.showSuccessMessage('Excluido com sucesso'),
+      next: () => {
+        this.utilsService.showSuccessMessage('Excluido com sucesso');
+        this.fetchActors();
+      },
       error: () => this.utilsService.showErrorMessage('Erro ao excluir o ator'),
     });
   }
@@ -94,7 +97,19 @@ export class ListComponent implements OnInit {
 
   saveEdit(id: number): void {
     const index = this.actors.findIndex((item) => item.id === id);
-    Object.assign(this.actors[index], this.editCache[id].data);
-    this.editCache[id].edit = false;
+    this.actorService.update(this.editCache[id].data).subscribe({
+      next: () => {
+        this.utilsService.showSuccessMessage(
+          `${this.editCache[id].data.name} alterado com sucesso`
+        );
+        Object.assign(this.actors[index], this.editCache[id].data);
+        this.editCache[id].edit = false;
+      },
+      error: () => {
+        this.utilsService.showErrorMessage('Erro ao Alterar o Ator');
+        Object.assign(this.editCache[id].data, this.actors[index]);
+        this.editCache[id].edit = false;
+      },
+    });
   }
 }
