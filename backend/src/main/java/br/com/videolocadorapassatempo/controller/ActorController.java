@@ -4,8 +4,6 @@ import br.com.videolocadorapassatempo.service.ActorService;
 import br.com.videolocadorapassatempo.service.dto.ActorDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/ator")
@@ -52,7 +49,7 @@ public class ActorController {
     @ApiOperation("Exclui um ator do sistema")
     public ResponseEntity deleteById(@PathVariable Long id) {
         actorService.deleteById(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Autor deletado com sucesso!");
+        return ResponseEntity.noContent().build();
     }
 
 }
