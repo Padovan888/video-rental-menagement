@@ -1,5 +1,11 @@
 <nz-layout>
-  <nz-sider nzCollapsible nzWidth="200px" nzTheme="light" (nzCollapsedChange)="handleToggleSider($event)">
+  <nz-sider
+    *ngIf="router.url !== '/login'"
+    nzCollapsible
+    nzWidth="200px"
+    nzTheme="light"
+    (nzCollapsedChange)="handleToggleSider($event)"
+  >
     <figure class="logo">
       <img src="assets/logo/passatempo-dark.png" alt="" />
     </figure>
@@ -25,10 +31,19 @@
       </li>
     </ul>
   </nz-sider>
-  <nz-layout class="transition-all duration-200" [ngClass]="isSiderClosed ? 'small-margin' : 'big-margin'">
-    <nz-content>
+  <nz-layout
+    class="transition-all duration-200"
+    [ngClass]="
+      router.url !== '/login'
+        ? isSiderClosed
+          ? 'small-margin'
+          : 'big-margin'
+        : ''
+    "
+  >
+    <nz-content [ngClass]="{ 'mx-4': router.url !== '/login' }">
       <router-outlet></router-outlet>
-      <app-footer></app-footer>
+      <app-footer *ngIf="router.url !== '/login'"></app-footer>
     </nz-content>
   </nz-layout>
 </nz-layout>
