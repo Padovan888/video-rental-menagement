@@ -5,6 +5,10 @@ const routes: Routes = [
   {
     path: 'atores',
     loadChildren: () => import('./modules/actor/actor.module').then(m => m.ActorModule)
+  },
+  {
+    path: 'diretores',
+    loadChildren: () => import('./modules/director/director.module').then(m => m.DirectorModule)
   }
 ];
 
