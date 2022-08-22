@@ -1,0 +1,48 @@
+<div
+  class="bg-white sm:bg-gray-200 min-h-screen w-screen flex flex-col justify-center items-center"
+>
+  <div
+    class="bg-white shadow-none sm:shadow-lg px-8 sm:px-12 w-full xs:w-full sm:w-8/12 md:w-7/12 lg:w-7/12 xl:w-2/6 h-screen sm:h-auto py-8"
+  >
+    <div class="text-center w-full font-bold text-3xl text-gray-600 p-4">
+      🎞 PASSATEMPO
+    </div>
+    <div class="w-full bg-gray-200 my-3" style="height: 1px"></div>
+    <form [formGroup]="loginForm">
+      <div class="flex flex-col gap-4 px-0 py-4">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Por favor, coloque o nome de usuário!">
+            <nz-input-group nzPrefixIcon="user">
+              <input
+                type="text"
+                nz-input
+                formControlName="userName"
+                placeholder="Nome de Usuário"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Por favor, coloque a senha!">
+            <nz-input-group nzPrefixIcon="lock">
+              <input
+                type="password"
+                nz-input
+                formControlName="password"
+                placeholder="Senha"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <button nz-button class="w-full" [nzType]="'primary'" [disabled]="loginForm.invalid">Login</button>
+      <div class="my-2 flex flex-row justify-center">
+        <span class="absolute bg-white px-4">ou</span>
+        <div class="w-full bg-gray-200 mt-3" style="height: 1px"></div>
+      </div>
+      <div class="w-full flex flex-row justify-end">
+        <a href="#">Esqueceu a senha?</a>
+      </div>
+    </form>
+  </div>
+</div>
