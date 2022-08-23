@@ -26,7 +26,7 @@ public class ClassModel implements Serializable {
     @Column(name = "value", nullable = false)
     private Double value;
 
-    @Column(name = "return_date", nullable = false)
-    private LocalDate returnDate;
+    @Column(name = "return_period", nullable = false)
+    private Integer returnPeriod;
 
 }
