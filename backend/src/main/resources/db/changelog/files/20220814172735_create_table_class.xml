@@ -17,7 +17,7 @@
             <column name="value" type="double precision">
                 <constraints nullable="false"></constraints>
             </column>
-            <column name="return_date" type="date">
+            <column name="return_period" type="integer">
                 <constraints nullable="false"></constraints>
             </column>
         </createTable>

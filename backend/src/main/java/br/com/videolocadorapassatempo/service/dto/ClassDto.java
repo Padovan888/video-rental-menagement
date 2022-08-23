@@ -5,7 +5,6 @@ import lombok.Setter;
 
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -23,8 +22,8 @@ public class ClassDto implements Serializable {
     @Min(value = 0, message = "O campo valor deve assumir valores positivos e não nulos!")
     private Double value;
 
-    @NotNull(message = "O campo data de devolução não pode ser nulo!")
-    @Future(message = "O campo data de devolução deve possuir uma data que se encontra no futuro!")
-    private LocalDate returnDate;
+    @NotNull(message = "O campo prazo de devolução não pode ser nulo!")
+    @Min(value = 1, message = "O campo prazo de devolução deve assumir valores positivos e não nulos!")
+    private Integer returnPeriod;
 
 }
