@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd
+        http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.5.xsd">
+
+    <changeSet id="20220820123015-1" author="Mateus Padovan Pereira">
+        <createTable tableName="title">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true"></constraints>
+            </column>
+            <column name="year" type="date">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="synopsis" type="text">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="category" type="varchar(50)">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="id_director" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="fk_title_id_director"
+                             references="director(id)"></constraints>
+            </column>
+            <column name="id_class" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="fk_title_id_class"
+                             references="class(id)"></constraints>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20220820141145-2" author="Mateus Padovan Pereira">
+        <createSequence sequenceName="sequence_title"
+                        dataType="bigint"
+                        startValue="1"
+                        incrementBy="1"></createSequence>
+    </changeSet>
+    
+    <changeSet id="20220820141458-3" author="Mateus Padovan Pereira">
+        <createTable tableName="title_actor">
+            <column name="id_title" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="fk_title_actor_id_title"
+                             references="title(id)"></constraints>
+            </column>
+            <column name="id_actor" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="fk_title_actor_id_actor"
+                             references="actor(id)"></constraints>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20220820164845-4" author="Mateus Padovan Pereira">
+        <addPrimaryKey tableName="title_actor"
+                       columnNames="id_title,id_actor"
+                       constraintName="pk_id_title_actor"></addPrimaryKey>
+    </changeSet>
+
+</databaseChangeLog>

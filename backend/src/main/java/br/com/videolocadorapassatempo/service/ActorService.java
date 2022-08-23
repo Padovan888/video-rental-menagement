@@ -3,7 +3,6 @@ package br.com.videolocadorapassatempo.service;
 import br.com.videolocadorapassatempo.service.dto.ActorDto;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface ActorService {
 
