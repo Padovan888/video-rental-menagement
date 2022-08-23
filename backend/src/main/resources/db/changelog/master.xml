@@ -9,5 +9,7 @@
         <include file="db/changelog/files/20220811133940_create_table_actor.xml"></include>
         <include file="db/changelog/files/20220814121440_create_table_director.xml"></include>
         <include file="db/changelog/files/20220814172735_create_table_class.xml"></include>
+        <include file="db/changelog/files/20220820122905_create_table_title.xml"></include>
+        <include file="db/changelog/files/20220822222535_create_table_item_type.xml"></include>
 
 </databaseChangeLog>
