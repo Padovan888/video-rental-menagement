@@ -5,10 +5,10 @@ import { Actor } from 'src/app/shared';
 
 @Component({
   selector: 'app-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss'],
+  templateUrl: './actor-crud.component.html',
+  styleUrls: ['./actor-crud.component.scss'],
 })
-export class ListComponent implements OnInit {
+export class ActorCrudComponent implements OnInit {
   isFetching: boolean = false;
   formActionOpened: boolean = false;
   actorForm: FormGroup;
@@ -35,7 +35,10 @@ export class ListComponent implements OnInit {
         this.actors = actors;
         this.updateEditCache();
       },
-      error: (error) => this.utilsService.showErrorMessage(error.message),
+      error: (error) => {
+        this.utilsService.showErrorMessage(error.message);
+        this.isFetching = false;
+      },
       complete: () => (this.isFetching = false),
     });
   }
@@ -54,6 +57,7 @@ export class ListComponent implements OnInit {
   }
 
   handleCloseModalForm(): void {
+    this.actorForm.reset();
     this.formActionOpened = false;
   }
 
@@ -61,7 +65,10 @@ export class ListComponent implements OnInit {
     this.isFetching = true;
     this.actorService.create(this.actorForm.value).subscribe({
       next: (newActor) => this.actionsForSuccess(),
-      error: (error) => this.utilsService.showErrorMessage(error.message),
+      error: (error) => {
+        this.utilsService.showErrorMessage(error.message);
+        this.isFetching = false;
+      },
       complete: () => (this.isFetching = false),
     });
   }

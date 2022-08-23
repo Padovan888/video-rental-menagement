@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ActorCrudComponent } from './pages/actor-crud/actor-crud.component';
+import { ClassCrudComponent } from './pages/class-crud/class-crud.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: ActorCrudComponent,
-  },
+    component: ClassCrudComponent
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
-export class ActorRoutingModule {}
+export class ClassRoutingModule { }

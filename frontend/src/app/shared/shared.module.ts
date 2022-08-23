@@ -14,6 +14,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
@@ -36,9 +37,10 @@ import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
     NzDividerModule,
     NzModalModule,
     NzFormModule,
+    NzInputNumberModule,
     NzInputModule,
     NzPopconfirmModule,
-    NzSkeletonModule
+    NzSkeletonModule,
   ],
   exports: [
     ReactiveFormsModule,
@@ -56,9 +58,10 @@ import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
     NzDividerModule,
     NzModalModule,
     NzFormModule,
+    NzInputNumberModule,
     NzInputModule,
     NzPopconfirmModule,
-    NzSkeletonModule
+    NzSkeletonModule,
   ],
 })
 export class SharedModule {}
