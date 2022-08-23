@@ -4,11 +4,11 @@ import { DirectorService, UtilsService } from 'src/app/core';
 import { Director } from 'src/app/shared';
 
 @Component({
-  selector: 'app-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss'],
+  selector: 'app-director-crud',
+  templateUrl: './director-crud.component.html',
+  styleUrls: ['./director-crud.component.scss'],
 })
-export class ListComponent implements OnInit {
+export class DirectorCrudComponent implements OnInit {
   isFetching: boolean = false;
   formActionOpened: boolean = false;
   directorForm: FormGroup;
@@ -35,7 +35,10 @@ export class ListComponent implements OnInit {
         this.directors = directors;
         this.updateEditCache();
       },
-      error: (error) => this.utilsService.showErrorMessage(error.message),
+      error: (error) => {
+        this.utilsService.showErrorMessage(error.message);
+        this.isFetching = false;
+      },
       complete: () => (this.isFetching = false),
     });
   }
@@ -54,6 +57,7 @@ export class ListComponent implements OnInit {
   }
 
   handleCloseModalForm(): void {
+    this.directorForm.reset();
     this.formActionOpened = false;
   }
 
@@ -61,7 +65,10 @@ export class ListComponent implements OnInit {
     this.isFetching = true;
     this.directorService.create(this.directorForm.value).subscribe({
       next: (newDirector) => this.actionsForSuccess(),
-      error: (error) => this.utilsService.showErrorMessage(error.message),
+      error: (error) => {
+        this.utilsService.showErrorMessage(error.message);
+        this.isFetching = false;
+      },
       complete: () => (this.isFetching = false),
     });
   }
@@ -79,7 +86,8 @@ export class ListComponent implements OnInit {
         this.utilsService.showSuccessMessage('Excluido com sucesso');
         this.fetchDirectors();
       },
-      error: () => this.utilsService.showErrorMessage('Erro ao excluir o diretor'),
+      error: () =>
+        this.utilsService.showErrorMessage('Erro ao excluir o diretor'),
     });
   }
 

@@ -2,13 +2,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { DirectorRoutingModule } from './director-routing.module';
-import { ListComponent } from './pages/list/list.component';
+import { DirectorCrudComponent } from './pages/director-crud/director-crud.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
   declarations: [
-    ListComponent
+    DirectorCrudComponent
   ],
   imports: [
     CommonModule,

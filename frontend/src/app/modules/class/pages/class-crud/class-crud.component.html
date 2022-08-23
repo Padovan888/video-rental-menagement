@@ -1,0 +1,197 @@
+<nz-card class="mt-4">
+  <nz-page-header class="site-page-header" nzBackIcon>
+    <nz-breadcrumb nz-page-header-breadcrumb>
+      <nz-breadcrumb-item>Locadora de Filmes</nz-breadcrumb-item>
+      <nz-breadcrumb-item>Gerência de Classes</nz-breadcrumb-item>
+    </nz-breadcrumb>
+    <nz-avatar
+      nz-page-header-avatar
+      nzSrc="https://avatars0.githubusercontent.com/u/22736418?s=88&v=4"
+    ></nz-avatar>
+    <nz-page-header-title>Classes</nz-page-header-title>
+    <nz-page-header-subtitle>Classes de Filmes</nz-page-header-subtitle>
+    <nz-page-header-extra>
+      <nz-space>
+        <button
+          *nzSpaceItem
+          nz-button
+          nzType="primary"
+          (click)="handleOpenModalForm()"
+          [disabled]="isFetching"
+        >
+          Nova Classe
+        </button>
+      </nz-space>
+    </nz-page-header-extra>
+  </nz-page-header>
+
+  <ng-container class="container px-4">
+    <nz-skeleton [nzActive]="true" *ngIf="isFetching"></nz-skeleton>
+    <nz-table #actorList [nzData]="classes" [hidden]="isFetching">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Prazo Devolução</th>
+          <th>Valor</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of actorList.data">
+          <ng-container *ngIf="!editCache[data.id!]?.edit; else editTemplate">
+            <td>{{ data.name }}</td>
+            <td>{{ data.returnPeriod }} dia(s)</td>
+            <td>{{ data.value | currency: "BRL" }}</td>
+            <td>
+              <a (click)="startEdit(data.id!)">Editar</a>
+              <nz-divider nzType="vertical"></nz-divider>
+              <a
+                nz-popconfirm
+                nzPopconfirmTitle="Tem certeza que deseja Remover?"
+                (nzOnConfirm)="handleDeleteClass(data.id!)"
+                >Excluir</a
+              >
+            </td>
+          </ng-container>
+          <ng-template #editTemplate>
+            <ng-container>
+              <td>
+                <nz-form-item>
+                  <nz-form-control
+                    nzHasFeedback
+                    [nzSpan]="12"
+                    nzErrorTip="Nome inválido"
+                  >
+                    <input
+                      type="text"
+                      nz-input
+                      [(ngModel)]="editCache[data.id!].data.name"
+                      minlength="3"
+                      required
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </td>
+              <td>
+                <nz-form-item>
+                  <nz-form-control
+                    nzHasFeedback
+                    [nzSpan]="12"
+                    nzErrorTip="Prazo de Devolução inválido"
+                  >
+                    <nz-input-number
+                      id="returnPeriod"
+                      [(ngModel)]="editCache[data.id!].data.returnPeriod"
+                      class="w-full"
+                      [nzMin]="1"
+                      [nzMax]="30"
+                      [nzStep]="1"
+                    ></nz-input-number>
+                  </nz-form-control>
+                </nz-form-item>
+              </td>
+              <td>
+                <nz-form-item>
+                  <nz-input-number-group
+                    nzHasFeedback
+                    nzErrorTip="Valor inválido"
+                  >
+                    <input
+                      #valueField
+                      nz-input
+                      currencyMask
+                      [(ngModel)]="editCache[data.id!].data.value"
+                      id="value"
+                      [options]="{
+                        prefix: 'R$ ',
+                        thousands: '.',
+                        decimal: ',',
+                        allowNegative: false,
+                        nullable: false,
+                        align: 'left'
+                      }"
+                    />
+                  </nz-input-number-group>
+                </nz-form-item>
+              </td>
+              <td>
+                <a (click)="saveEdit(data.id!)" class="save">Salvar</a>
+                <nz-divider nzType="vertical"></nz-divider>
+                <a
+                  nz-popconfirm
+                  nzPopconfirmTitle="Certeza que deseja cancelar?"
+                  (nzOnConfirm)="cancelEdit(data.id!)"
+                  >Cancelar</a
+                >
+              </td>
+            </ng-container>
+          </ng-template>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <nz-modal
+    #classFormModal
+    [(nzVisible)]="formActionOpened"
+    nzTitle="Cadastrar Classe"
+    (nzOnCancel)="handleCloseModalForm()"
+    (nzOnOk)="handleSubmitClass()"
+    [nzOkText]="'Cadastrar'"
+    [nzOkDisabled]="classForm.invalid"
+    [nzOkLoading]="isFetching"
+    [nzCancelDisabled]="isFetching"
+  >
+    <form nz-form *nzModalContent [formGroup]="classForm">
+      <fieldset [disabled]="isFetching">
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="name"
+            >Nome</nz-form-label
+          >
+          <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Nome inválido">
+            <input nz-input formControlName="name" id="name" />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="returnPeriod"
+            >Prazo de Devolução</nz-form-label
+          >
+          <nz-form-control
+            [nzSm]="14"
+            [nzXs]="24"
+            nzErrorTip="Tempo de devolução inválido"
+          >
+            <nz-input-number
+              id="returnPeriod"
+              formControlName="returnPeriod"
+              class="w-full"
+              [nzMin]="1"
+              [nzMax]="30"
+              [nzStep]="1"
+            ></nz-input-number>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="value"
+            >Valor</nz-form-label
+          >
+          <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Valor inválido">
+            <input
+              nz-input
+              currencyMask
+              formControlName="value"
+              id="value"
+              [options]="{
+                prefix: 'R$ ',
+                thousands: '.',
+                decimal: ',',
+                allowNegative: false,
+                nullable: false,
+                align: 'left'
+              }"
+            />
+          </nz-form-control>
+        </nz-form-item>
+      </fieldset>
+    </form>
+  </nz-modal>
+</nz-card>

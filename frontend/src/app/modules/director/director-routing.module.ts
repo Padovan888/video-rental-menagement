@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ListComponent } from './pages/list/list.component';
+import { DirectorCrudComponent } from './pages/director-crud/director-crud.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: ListComponent
+    component: DirectorCrudComponent
   }
 ];
 

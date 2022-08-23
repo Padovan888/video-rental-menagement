@@ -13,7 +13,11 @@ const routes: Routes = [
   {
     path: 'diretores',
     loadChildren: () => import('./modules/director/director.module').then(m => m.DirectorModule)
-  }
+  },
+  {
+    path: 'classes',
+    loadChildren: () => import('./modules/class/class.module').then(m => m.ClassModule)
+  },  
 ];
 
 @NgModule({
