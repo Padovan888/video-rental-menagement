@@ -15,7 +15,7 @@ import java.io.Serializable;
 public class DirectorModel implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequencer_director")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_director")
     @SequenceGenerator(name = "sequence_director", sequenceName = "sequence_director", allocationSize = 1)
     private Long id;
 

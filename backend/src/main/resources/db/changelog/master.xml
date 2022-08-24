@@ -11,5 +11,6 @@
         <include file="db/changelog/files/20220814172735_create_table_class.xml"></include>
         <include file="db/changelog/files/20220820122905_create_table_title.xml"></include>
         <include file="db/changelog/files/20220822222535_create_table_item_type.xml"></include>
+        <include file="db/changelog/files/20220823182430_create_table_item.xml"></include>
 
 </databaseChangeLog>
