@@ -1,19 +1,18 @@
 package br.com.videolocadorapassatempo.service;
 
-import br.com.videolocadorapassatempo.service.dto.CreateTitleDto;
-import br.com.videolocadorapassatempo.service.dto.ViewTitleDto;
+import br.com.videolocadorapassatempo.service.dto.TitleDto;
 
 import java.util.List;
 
 public interface TitleService {
 
-    public List<ViewTitleDto> findAll();
+    public List<TitleDto> findAll();
 
-    public ViewTitleDto findById(Long id);
+    public TitleDto findById(Long id);
 
-    public CreateTitleDto create(CreateTitleDto createTitleDto);
+    public TitleDto create(TitleDto titleDto);
 
-    public CreateTitleDto update(CreateTitleDto createTitleDto);
+    public TitleDto update(TitleDto titleDto);
 
     public void deleteById(Long id);
 

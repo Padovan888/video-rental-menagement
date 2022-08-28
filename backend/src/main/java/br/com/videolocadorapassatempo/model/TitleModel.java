@@ -12,9 +12,6 @@ import java.util.List;
 @Table(name = "title")
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class TitleModel implements Serializable {
 
     @Id
@@ -39,7 +36,10 @@ public class TitleModel implements Serializable {
     @JoinColumn(name = "id_class", referencedColumnName = "id", nullable = false)
     private ClassModel classModel;
 
-    @OneToMany(mappedBy = "titleModel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<TitleActorModel> titleActorModel = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "title_actor",
+               joinColumns = @JoinColumn(name = "id_title"),
+               inverseJoinColumns = @JoinColumn(name = "id_actor"))
+    private List<ActorModel> actorModel = new ArrayList<>();
 
 }

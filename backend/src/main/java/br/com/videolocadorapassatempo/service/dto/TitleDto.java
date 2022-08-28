@@ -7,13 +7,14 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
-public class CreateTitleDto {
+public class TitleDto implements Serializable {
 
     private Long id;
 
@@ -41,6 +42,6 @@ public class CreateTitleDto {
 
     @NotNull(message = "A lista de atores não pode ser nula!")
     @Size(min = 1, message = "A lista de atores deve possuir no mínimo um ator!")
-    private List<Long> actorIds = new ArrayList<>();
+    private List<ActorTitleDto> actorIds = new ArrayList<>();
 
 }
