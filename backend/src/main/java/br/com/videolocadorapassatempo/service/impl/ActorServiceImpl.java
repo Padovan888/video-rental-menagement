@@ -2,62 +2,70 @@ package br.com.videolocadorapassatempo.service.impl;
 
 import br.com.videolocadorapassatempo.model.ActorModel;
 import br.com.videolocadorapassatempo.repository.ActorRepository;
+import br.com.videolocadorapassatempo.repository.TitleRepository;
 import br.com.videolocadorapassatempo.service.ActorService;
 import br.com.videolocadorapassatempo.service.dto.ActorDto;
-import br.com.videolocadorapassatempo.service.exception.EntityException;
+import br.com.videolocadorapassatempo.service.enums.Entity;
+import br.com.videolocadorapassatempo.service.exception.EntityBadRequestException;
+import br.com.videolocadorapassatempo.service.exception.EntityNotFoundException;
 import br.com.videolocadorapassatempo.service.mapper.ActorMapper;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
+@Transactional
 public class ActorServiceImpl implements ActorService {
 
     private final ActorRepository actorRepository;
 
+    private final TitleRepository titleRepository;
+
     private final ActorMapper actorMapper;
 
+    @Transactional(readOnly = true)
     public List<ActorDto> findAll() {
         return actorMapper.toDto(actorRepository.findAll());
     }
 
-    public ActorDto findById(Long id) {
-        log.info("Buscando ator de id = {}", id);
-        ActorModel actorModel = actorRepository.findById(id)
-                .orElseThrow(() -> new EntityException("Autor de id = " + id + " não encontrado!"));
+    @Transactional(readOnly = true)
+    public ActorDto findById(Long idActor) {
+        ActorModel actorModel = actorRepository.findById(idActor)
+                .orElseThrow(() -> new EntityNotFoundException(EntityNotFoundException.getMessageError(Entity.ACTOR.getName(), idActor)));
 
-        log.info("Ator de id = {} encontrado com sucesso", id);
         return actorMapper.toDto(actorModel);
     }
 
     public ActorDto create(ActorDto actorDto) {
-        log.info("Ator cadastrado com sucesso!");
         ActorModel actorModel = actorMapper.toEntity(actorDto);
         return actorMapper.toDto(actorRepository.save(actorModel));
     }
 
     public ActorDto update(ActorDto actorDto) {
-        log.info("Buscando ator de id = {}", actorDto.getId());
-        ActorModel actorModel = actorRepository.findById(actorDto.getId())
-                .orElseThrow(() -> new EntityException("Autor de id = " + actorDto.getId() + " não encontrado!"));
-
-        actorModel.setName(actorDto.getName());
-        log.info("Ator de id = {} atualizado com sucesso!", actorDto.getId());
-        return actorMapper.toDto(actorRepository.save(actorModel));
-    }
-
-    public void deleteById(Long id) {
-        log.info("Buscando ator de id = {}", id);
-        if(!actorRepository.existsById(id)) {
-            throw new EntityException("Autor com id = " + id + " não encontrado!");
+        if(!actorRepository.existsById(actorDto.getId())) {
+            throw new EntityNotFoundException(EntityNotFoundException.getMessageError(Entity.ACTOR.getName(), actorDto.getId()));
         }
 
-        log.info("Ator de id = {} deletado com sucesso!", id);
-        actorRepository.deleteById(id);
+        return actorMapper.toDto(actorRepository.save(actorMapper.toEntity(actorDto)));
+    }
+
+    @Transactional(readOnly = true)
+    private void restrictionsToDelete(Long idActor) {
+        if(!actorRepository.existsById(idActor)) {
+            throw new EntityNotFoundException(EntityNotFoundException.getMessageError(Entity.ACTOR.getName(), idActor));
+        }
+
+        if(titleRepository.existsByIdActor(idActor)) {
+            throw new EntityBadRequestException(EntityBadRequestException.getMessageErrorEntityLink(Entity.ACTOR.getName(), Entity.TITLE.getName(), idActor));
+        }
+    }
+
+    public void deleteById(Long idActor) {
+        restrictionsToDelete(idActor);
+        actorRepository.deleteById(idActor);
     }
 
 }
