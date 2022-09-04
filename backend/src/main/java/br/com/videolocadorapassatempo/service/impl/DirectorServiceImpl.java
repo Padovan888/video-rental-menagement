@@ -40,8 +40,7 @@ public class DirectorServiceImpl implements DirectorService {
     }
 
     public DirectorDto create(DirectorDto directorDto) {
-        DirectorModel directorModel = directorMapper.toEntity(directorDto);
-        return directorMapper.toDto(directorRespository.save(directorModel));
+        return directorMapper.toDto(directorRespository.save(directorMapper.toEntity(directorDto)));
     }
 
     public DirectorDto update(DirectorDto directorDto) {

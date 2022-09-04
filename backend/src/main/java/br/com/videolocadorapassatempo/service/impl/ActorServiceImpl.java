@@ -40,8 +40,7 @@ public class ActorServiceImpl implements ActorService {
     }
 
     public ActorDto create(ActorDto actorDto) {
-        ActorModel actorModel = actorMapper.toEntity(actorDto);
-        return actorMapper.toDto(actorRepository.save(actorModel));
+        return actorMapper.toDto(actorRepository.save(actorMapper.toEntity(actorDto)));
     }
 
     public ActorDto update(ActorDto actorDto) {

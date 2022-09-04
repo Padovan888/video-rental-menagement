@@ -12,4 +12,6 @@ public interface TitleRepository extends JpaRepository<TitleModel, Long> {
 
     boolean existsByDirectorModelId(Long idDirector);
 
+    boolean existsByClassModelId(Long idClass);
+
 }
