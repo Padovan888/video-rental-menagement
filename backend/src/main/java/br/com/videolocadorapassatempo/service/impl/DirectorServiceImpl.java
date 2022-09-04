@@ -2,69 +2,70 @@ package br.com.videolocadorapassatempo.service.impl;
 
 import br.com.videolocadorapassatempo.model.DirectorModel;
 import br.com.videolocadorapassatempo.repository.DirectorRespository;
+import br.com.videolocadorapassatempo.repository.TitleRepository;
 import br.com.videolocadorapassatempo.service.DirectorService;
 import br.com.videolocadorapassatempo.service.dto.DirectorDto;
-import br.com.videolocadorapassatempo.service.exception.EntityException;
+import br.com.videolocadorapassatempo.service.enums.Entity;
+import br.com.videolocadorapassatempo.service.exception.EntityBadRequestException;
+import br.com.videolocadorapassatempo.service.exception.EntityNotFoundException;
 import br.com.videolocadorapassatempo.service.mapper.DirectorMapper;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
+@Transactional
 public class DirectorServiceImpl implements DirectorService {
 
     private final DirectorRespository directorRespository;
 
+    private final TitleRepository titleRepository;
+
     private final DirectorMapper directorMapper;
 
+    @Transactional(readOnly = true)
     public List<DirectorDto> findAll() {
-        log.info("Listando todos os diretores cadastrados no sistema");
         return directorMapper.toDto(directorRespository.findAll());
     }
 
-    public DirectorDto findById(Long id) {
-        log.info("Buscando diretor de id = {}", id);
-        Optional<DirectorModel> directorModel = directorRespository.findById(id);
+    @Transactional(readOnly = true)
+    public DirectorDto findById(Long idDirector) {
+        DirectorModel directorModel = directorRespository.findById(idDirector)
+                .orElseThrow(() -> new EntityNotFoundException(EntityNotFoundException.getMessageError(Entity.DIRECTOR.getName(), idDirector)));
 
-        if(!directorModel.isPresent()) {
-            log.info("Diretor de id = {} não encontrado", id);
-            throw new EntityException("Diretor não encontrado!");
-        }
-
-        log.info("Diretor de id = {} encontrado com sucesso!");
-        return directorMapper.toDto(directorModel.get());
+        return directorMapper.toDto(directorModel);
     }
 
     public DirectorDto create(DirectorDto directorDto) {
-        log.info("Diretor cadastrado com sucesso!");
         DirectorModel directorModel = directorMapper.toEntity(directorDto);
         return directorMapper.toDto(directorRespository.save(directorModel));
     }
 
     public DirectorDto update(DirectorDto directorDto) {
         if(!directorRespository.existsById(directorDto.getId())) {
-            log.info("Diretor de id = {} não encontrado", directorDto.getId());
-            throw new EntityException("Diretor não encontrado!");
+            throw new EntityNotFoundException(EntityNotFoundException.getMessageError(Entity.DIRECTOR.getName(), directorDto.getId()));
         }
 
-        log.info("Diretor de id = {} atualizado com sucesso", directorDto.getId());
-        DirectorModel directorModel = directorMapper.toEntity(directorDto);
-        return directorMapper.toDto(directorRespository.save(directorModel));
+        return directorMapper.toDto(directorRespository.save(directorMapper.toEntity(directorDto)));
     }
 
-    public void deleteById(Long id) {
-        if(!directorRespository.existsById(id)) {
-            log.info("Diretor de id = {} não encontrado", id);
-            throw new EntityException("Diretor não encontrado!");
+    @Transactional(readOnly = true)
+    private void restrictionsToDelete(Long idDirector) {
+        if(!directorRespository.existsById(idDirector)) {
+            throw new EntityNotFoundException(EntityNotFoundException.getMessageError(Entity.DIRECTOR.getName(), idDirector));
         }
 
-        log.info("Diretor de id = {} deletado com sucesso", id);
-        directorRespository.deleteById(id);
+        if(titleRepository.existsByDirectorModelId(idDirector)) {
+            throw new EntityBadRequestException(EntityBadRequestException.getMessageErrorEntityLink(Entity.DIRECTOR.getName(), Entity.TITLE.getName(), idDirector));
+        }
+    }
+
+    public void deleteById(Long idDirector) {
+        restrictionsToDelete(idDirector);
+        directorRespository.deleteById(idDirector);
     }
 
 }
