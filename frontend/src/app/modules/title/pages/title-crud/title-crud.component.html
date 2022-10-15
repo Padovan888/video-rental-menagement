@@ -1,0 +1,253 @@
+<nz-card class="mt-4">
+  <nz-page-header class="site-page-header" nzBackIcon>
+    <nz-breadcrumb nz-page-header-breadcrumb>
+      <nz-breadcrumb-item>Locadora de Filmes</nz-breadcrumb-item>
+      <nz-breadcrumb-item>Gerência de Títulos</nz-breadcrumb-item>
+    </nz-breadcrumb>
+    <nz-avatar
+      nz-page-header-avatar
+      nzSrc="https://avatars0.githubusercontent.com/u/22736418?s=88&v=4"
+    ></nz-avatar>
+    <nz-page-header-title>Títulos</nz-page-header-title>
+    <nz-page-header-subtitle>Títulos de Filmes</nz-page-header-subtitle>
+    <nz-page-header-extra>
+      <nz-space>
+        <button
+          *nzSpaceItem
+          nz-button
+          nzType="primary"
+          (click)="handleNewTitle()"
+          [disabled]="isFetching"
+        >
+          Novo Título
+        </button>
+      </nz-space>
+    </nz-page-header-extra>
+  </nz-page-header>
+
+  <ng-container class="container px-4">
+    <nz-skeleton [nzActive]="true" *ngIf="isFetching"></nz-skeleton>
+    <nz-table #actorList [nzData]="titles" [hidden]="isFetching">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of actorList.data">
+          <ng-container>
+            <td>{{ data.name }}</td>
+            <td>
+              <a (click)="handleView(data)">Visualizar</a>
+              <nz-divider nzType="vertical"></nz-divider>
+              <a (click)="handleEditTitle(data)">Editar</a>
+              <nz-divider nzType="vertical"></nz-divider>
+              <a
+                nz-popconfirm
+                nzPopconfirmTitle="Tem certeza que deseja Remover?"
+                (nzOnConfirm)="handleDeleteTitle(data.id!)"
+              >
+                Excluir
+              </a>
+            </td>
+          </ng-container>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <nz-modal
+    #titleFormModal
+    [(nzVisible)]="formActionOpened"
+    [nzTitle]="currentAction === 'new' ? 'Cadastrar Titulo' : 'Editando Título'"
+    (nzOnCancel)="handleCloseModalForm()"
+    (nzOnOk)="handleSubmitTitle()"
+    [nzStyle]="modalStyle"
+    [nzOkText]="currentAction === 'new' ? 'Cadastrar' : 'Editar'"
+    [nzOkDisabled]="titleForm.invalid"
+    [nzOkLoading]="isFetching"
+    [nzCancelDisabled]="isFetching"
+  >
+    <form nz-form *nzModalContent [formGroup]="titleForm">
+      <fieldset [disabled]="isFetching">
+        <nz-tabset [nzCentered]="true">
+          <nz-tab nzTitle="Informações Gerais">
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">
+                Nome
+              </nz-form-label>
+              <nz-form-control
+                [nzSm]="14"
+                [nzXs]="24"
+                nzErrorTip="Nome inválido"
+              >
+                <input nz-input formControlName="name" id="name" />
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="idClass">
+                Classe
+              </nz-form-label>
+              <nz-form-control
+                [nzSm]="14"
+                [nzXs]="24"
+                nzErrorTip="Classe Inválida"
+              >
+                <nz-select
+                  nzShowSearch
+                  nzAllowClear
+                  nzPlaceHolder="Selecione a Classe"
+                  formControlName="idClass"
+                  id="idClass"
+                >
+                  <nz-option
+                    *ngFor="let class of classes"
+                    [nzLabel]="class.name!"
+                    [nzValue]="class.id!"
+                  ></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="year">
+                Ano
+              </nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Ano">
+                <nz-input-number
+                  id="year"
+                  formControlName="year"
+                  class="w-full"
+                  [nzMin]="1895"
+                  [nzMax]="currentDate.getFullYear()"
+                  [nzStep]="1"
+                ></nz-input-number>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="category">
+                Categoria
+              </nz-form-label>
+              <nz-form-control
+                [nzSm]="14"
+                [nzXs]="24"
+                nzErrorTip="Categoria inválida"
+              >
+                <input nz-input formControlName="category" id="category" />
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="synopsis">
+                Sinopse
+              </nz-form-label>
+              <nz-form-control
+                [nzSm]="14"
+                [nzXs]="24"
+                nzErrorTip="Sinopse Inválida"
+              >
+                <nz-textarea-count [nzMaxCharacterCount]="2000">
+                  <textarea
+                    nz-input
+                    rows="6"
+                    formControlName="synopsis"
+                    id="synopsis"
+                    maxlength="2000"
+                    class="resize-none"
+                  ></textarea>
+                </nz-textarea-count>
+              </nz-form-control>
+            </nz-form-item>
+          </nz-tab>
+          <nz-tab nzTitle="Elenco">
+            <nz-form-item>
+              <nz-form-label
+                [nzSm]="6"
+                [nzXs]="24"
+                nzRequired
+                nzFor="idDirector"
+              >
+                Diretor
+              </nz-form-label>
+              <nz-form-control
+                [nzSm]="14"
+                [nzXs]="24"
+                nzErrorTip="Diretor Inválido"
+              >
+                <nz-select
+                  nzShowSearch
+                  nzAllowClear
+                  nzPlaceHolder="Selecione o Diretor"
+                  formControlName="idDirector"
+                  id="idDirector"
+                >
+                  <nz-option
+                    *ngFor="let director of directors"
+                    [nzLabel]="director.name!"
+                    [nzValue]="director.id!"
+                  ></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+            <div class="flex flex-col justify-center items-center">
+              <nz-form-label nzRequired nzFor="synopsis">
+                Atores
+              </nz-form-label>
+              <nz-transfer
+                [nzDataSource]="transferActors"
+                [nzTitles]="['Todos', 'Elenco']"
+                nzShowSearch
+                [nzFilterOption]="filterOption"
+              ></nz-transfer>
+            </div>
+          </nz-tab>
+        </nz-tabset>
+      </fieldset>
+    </form>
+  </nz-modal>
+  <nz-modal
+    #titleViewModal
+    [(nzVisible)]="viewActionOpened"
+    (nzOnCancel)="handleCloseViewModal()"
+    [nzStyle]="modalStyle"
+    [nzFooter]="null"
+  >
+    <nz-page-header class="site-page-header" *nzModalContent>
+      <nz-page-header-title>Título {{ titleViewed.name }}</nz-page-header-title>
+
+      <nz-page-header-subtitle>{{ titleViewed.year | date: 'yyyy' }}</nz-page-header-subtitle>
+
+      <nz-page-header-tags>
+        <nz-tag [nzColor]="'blue'">{{ titleViewed.category }}</nz-tag>
+      </nz-page-header-tags>
+
+      <nz-page-header-content>
+        <div nz-row>
+          <div class="content">
+            <nz-descriptions nzSize="small" [nzColumn]="1">
+              <nz-descriptions-item nzTitle="Diretor" [nzSpan]="1">
+                {{ titleViewed.idDirector }}
+              </nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Atores" [nzSpan]="1">
+                {{ getActorsName(titleViewed) }}
+              </nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Ano de Lançamento" [nzSpan]="1">
+                {{ titleViewed.year | date: 'yyyy' }}
+              </nz-descriptions-item>
+            </nz-descriptions>
+            <p nz-paragraph>
+              {{ titleViewed.synopsis }}
+            </p>
+            <div class="content-link">
+              <a [href]="'https://www.adorocinema.com/pesquisar/?q=' + titleViewed.name || 'bolamaster'" target="_blank">
+                <img
+                  src="assets/adorocinema.png"
+                  alt="adoro_cinema"
+                />
+                Link no Adoro Cinema
+              </a>
+            </div>
+          </div>
+        </div>
+      </nz-page-header-content>
+    </nz-page-header>
+  </nz-modal>
+</nz-card>
