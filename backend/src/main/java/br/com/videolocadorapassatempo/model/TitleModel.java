@@ -1,6 +1,7 @@
 package br.com.videolocadorapassatempo.model;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,6 +19,9 @@ public class TitleModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_title")
     @SequenceGenerator(name = "sequence_title", sequenceName = "sequence_title", allocationSize = 1)
     private Long id;
+
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @Column(name = "year", nullable = false)
     private LocalDate year;
@@ -38,8 +42,8 @@ public class TitleModel implements Serializable {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "title_actor",
-               joinColumns = @JoinColumn(name = "id_title"),
-               inverseJoinColumns = @JoinColumn(name = "id_actor"))
+            joinColumns = @JoinColumn(name = "id_title"),
+            inverseJoinColumns = @JoinColumn(name = "id_actor"))
     private List<ActorModel> actorModel = new ArrayList<>();
 
 }

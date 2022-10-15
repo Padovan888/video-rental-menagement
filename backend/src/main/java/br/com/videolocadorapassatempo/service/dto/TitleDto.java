@@ -22,6 +22,12 @@ public class TitleDto implements Serializable {
     @PastOrPresent(message = "O campo ano deve ser uma data que se encontra no passado ou no presente!")
     private LocalDate year;
 
+    @NotEmpty(message = "O campo nome não pode ser vazio!")
+    @NotNull(message = "O campo nome não pode ser nulo!")
+    @Size(min = 3, message = "O campo nome deve possuir no mínimo 3 caracteres!")
+    @Size(max = 50, message = "O campo nome deve possuir no máximo 50 caracteres!")
+    private String name;
+
     @NotEmpty(message = "O campo sinopse não pode ser vazio!")
     @NotNull(message = "O campo sinopse não pode ser nulo!")
     @Size(min = 10, message = "O campo sinopse deve possuir no mínimo 10 caracteres!")
