@@ -18,6 +18,7 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 @NgModule({
   declarations: [],
   imports: [
@@ -41,6 +42,7 @@ import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
     NzInputModule,
     NzPopconfirmModule,
     NzSkeletonModule,
+    NzSelectModule
   ],
   exports: [
     ReactiveFormsModule,
@@ -62,6 +64,7 @@ import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
     NzInputModule,
     NzPopconfirmModule,
     NzSkeletonModule,
+    NzSelectModule
   ],
 })
 export class SharedModule {}
