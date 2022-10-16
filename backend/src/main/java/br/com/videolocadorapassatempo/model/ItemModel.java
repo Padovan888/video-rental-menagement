@@ -21,14 +21,14 @@ public class ItemModel implements Serializable {
     @JoinColumn(name = "serial_number", nullable = false)
     private String serialNumber;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_title", referencedColumnName = "id", nullable = false)
     private TitleModel titleModel;
 
     @JoinColumn(name = "purchase_date", nullable = false)
     private LocalDate purchaseDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_item_type", nullable = false)
     private ItemTypeModel itemTypeModel;
 

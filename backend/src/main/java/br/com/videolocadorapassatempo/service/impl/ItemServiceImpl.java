@@ -6,8 +6,10 @@ import br.com.videolocadorapassatempo.repository.ItemTypeRepository;
 import br.com.videolocadorapassatempo.repository.TitleRepository;
 import br.com.videolocadorapassatempo.service.ItemService;
 import br.com.videolocadorapassatempo.service.dto.ItemDto;
+import br.com.videolocadorapassatempo.service.dto.ViewItemDto;
 import br.com.videolocadorapassatempo.service.exception.EntityException;
 import br.com.videolocadorapassatempo.service.mapper.ItemMapper;
+import br.com.videolocadorapassatempo.service.mapper.ViewItemMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,34 +28,36 @@ public class ItemServiceImpl implements ItemService {
 
     private final ItemMapper itemMapper;
 
-    public List<ItemDto> findAll() {
-        return itemMapper.toDto(itemRepository.findAll());
+    private final ViewItemMapper viewItemMapper;
+
+    public List<ViewItemDto> findAll() {
+        return viewItemMapper.toDto(itemRepository.findAll());
     }
 
-    public ItemDto findById(Long id) {
+    public ViewItemDto findById(Long id) {
         Optional<ItemModel> itemModel = itemRepository.findById(id);
 
-        if(!itemModel.isPresent()) {
+        if (!itemModel.isPresent()) {
             throw new EntityException("Item de id = " + id + " não encontrado!");
         }
 
-        return itemMapper.toDto(itemModel.get());
+        return viewItemMapper.toDto(itemModel.get());
     }
 
     public void existsTitleById(Long idTitle) {
-        if(!titleRepository.existsById(idTitle)) {
+        if (!titleRepository.existsById(idTitle)) {
             throw new EntityException("Título de id = " + idTitle + " não encontrado!");
         }
     }
 
     public void existsItemTypeById(Long idItemType) {
-        if(!itemTypeRepository.existsById(idItemType)) {
+        if (!itemTypeRepository.existsById(idItemType)) {
             throw new EntityException("Tipo de item de id = " + idItemType + " não encontrado!");
         }
     }
 
     public void existsItemById(Long id) {
-        if(!itemRepository.existsById(id)) {
+        if (!itemRepository.existsById(id)) {
             throw new EntityException("Item de id = " + id + " não encontrado!");
         }
     }

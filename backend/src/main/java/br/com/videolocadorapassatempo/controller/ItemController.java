@@ -2,6 +2,7 @@ package br.com.videolocadorapassatempo.controller;
 
 import br.com.videolocadorapassatempo.service.ItemService;
 import br.com.videolocadorapassatempo.service.dto.ItemDto;
+import br.com.videolocadorapassatempo.service.dto.ViewItemDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -23,13 +24,13 @@ public class ItemController {
 
     @GetMapping
     @ApiOperation("Retorna todos os itens cadastrados no sistema")
-    public ResponseEntity<List<ItemDto>> findAll() {
+    public ResponseEntity<List<ViewItemDto>> findAll() {
         return ResponseEntity.status(HttpStatus.OK).body(itemService.findAll());
     }
 
     @GetMapping("/{id}")
     @ApiOperation("Retorna um item cadastrado no sistema pelo id")
-    public ResponseEntity<ItemDto> findById(@PathVariable Long id) {
+    public ResponseEntity<ViewItemDto> findById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(itemService.findById(id));
     }
 

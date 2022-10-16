@@ -3,12 +3,8 @@ package br.com.videolocadorapassatempo.service.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PastOrPresent;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +15,15 @@ public class TitleDto implements Serializable {
     private Long id;
 
     @NotNull(message = "O campo ano não pode ser nulo!")
-    @PastOrPresent(message = "O campo ano deve ser uma data que se encontra no passado ou no presente!")
-    private LocalDate year;
+    @Min(value = 1850, message = "O campo ano deve possuir um valor maior que 1850!")
+    @Max(value = 2022, message = "O campo ano não deve possuir um valor maior que o ano atual!")
+    private Integer year;
+
+    @NotEmpty(message = "O campo nome não pode ser vazio!")
+    @NotNull(message = "O campo nome não pode ser nulo!")
+    @Size(min = 3, message = "O campo nome deve possuir no mínimo 3 caracteres!")
+    @Size(max = 50, message = "O campo nome deve possuir no máximo 50 caracteres!")
+    private String name;
 
     @NotEmpty(message = "O campo sinopse não pode ser vazio!")
     @NotNull(message = "O campo sinopse não pode ser nulo!")

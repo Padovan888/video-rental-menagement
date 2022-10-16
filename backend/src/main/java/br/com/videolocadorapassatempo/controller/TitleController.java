@@ -2,6 +2,7 @@ package br.com.videolocadorapassatempo.controller;
 
 import br.com.videolocadorapassatempo.service.TitleService;
 import br.com.videolocadorapassatempo.service.dto.TitleDto;
+import br.com.videolocadorapassatempo.service.dto.ViewTitleDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -23,13 +24,13 @@ public class TitleController {
 
     @GetMapping
     @ApiOperation("Retorna todos os títulos cadastrados no sistema")
-    public ResponseEntity<List<TitleDto>> findAll() {
+    public ResponseEntity<List<ViewTitleDto>> findAll() {
         return ResponseEntity.status(HttpStatus.OK).body(titleService.findAll());
     }
 
     @GetMapping("/{id}")
     @ApiOperation("Retorna um título cadastrado no sistema pelo id")
-    public ResponseEntity<TitleDto> findById(@PathVariable Long id) {
+    public ResponseEntity<ViewTitleDto> findById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(titleService.findById(id));
     }
 
