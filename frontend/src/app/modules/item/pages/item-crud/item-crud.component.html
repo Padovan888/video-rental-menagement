@@ -1,0 +1,183 @@
+<nz-card class="mt-4">
+  <nz-page-header class="site-page-header" nzBackIcon>
+    <nz-breadcrumb nz-page-header-breadcrumb>
+      <nz-breadcrumb-item>Locadora de Filmes</nz-breadcrumb-item>
+      <nz-breadcrumb-item>Gerência de Itens</nz-breadcrumb-item>
+    </nz-breadcrumb>
+    <nz-avatar
+      nz-page-header-avatar
+      nzSrc="https://avatars0.githubusercontent.com/u/22736418?s=88&v=4"
+    ></nz-avatar>
+    <nz-page-header-title>Itens</nz-page-header-title>
+    <nz-page-header-subtitle>Estoque de filmes</nz-page-header-subtitle>
+    <nz-page-header-extra>
+      <nz-space>
+        <button
+          *nzSpaceItem
+          nz-button
+          nzType="primary"
+          (click)="handleNewItem()"
+          [disabled]="isFetching"
+        >
+          Novo Item
+        </button>
+      </nz-space>
+    </nz-page-header-extra>
+  </nz-page-header>
+
+  <ng-container class="container px-4">
+    <nz-skeleton [nzActive]="true" *ngIf="isFetching"></nz-skeleton>
+    <nz-table #actorList [nzData]="items" [hidden]="isFetching">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Número de Série</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of actorList.data">
+          <ng-container>
+            <td>{{ data.titleModel?.name }}</td>
+            <td>{{ data.serialNumber }}</td>
+            <td>
+              <a (click)="handleView(data)">Visualizar</a>
+              <nz-divider nzType="vertical"></nz-divider>
+              <a (click)="handleEditItem(data)">Editar</a>
+              <nz-divider nzType="vertical"></nz-divider>
+              <a
+                nz-popconfirm
+                nzPopconfirmTitle="Tem certeza que deseja Remover?"
+                (nzOnConfirm)="handleDeleteItem(data.id!)"
+              >
+                Excluir
+              </a>
+            </td>
+          </ng-container>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <nz-modal
+    #itemFormModal
+    [(nzVisible)]="formActionOpened"
+    [nzTitle]="currentAction === 'new' ? 'Cadastrar Item' : 'Editando item'"
+    (nzOnCancel)="handleCloseModalForm()"
+    (nzOnOk)="handleSubmitItem()"
+    [nzStyle]="modalStyle"
+    [nzOkText]="currentAction === 'new' ? 'Cadastrar' : 'Salvar'"
+    [nzOkDisabled]="itemForm.invalid"
+    [nzOkLoading]="isFetching"
+    [nzCancelDisabled]="isFetching"
+  >
+    <form nz-form *nzModalContent [formGroup]="itemForm">
+      <fieldset [disabled]="isFetching">
+        <nz-form-item>
+          <nz-form-label [nzSm]="7" [nzXs]="24" nzRequired nzFor="idTitle">
+            Título
+          </nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Título inválido">
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              nzPlaceHolder="Selecione o título"
+              formControlName="idTitle"
+              id="idTitle"
+            >
+              <nz-option
+                *ngFor="let title of titles"
+                [nzLabel]="title.name!"
+                [nzValue]="title.id!"
+              ></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="7" [nzXs]="24" nzRequired nzFor="serialNumber">
+            Número de Série
+          </nz-form-label>
+          <nz-form-control
+            [nzSm]="14"
+            [nzXs]="24"
+            nzErrorTip="Número de Série inválido"
+          >
+            <input
+              nz-input
+              nzOverlayClassName="numeric-input"
+              formControlName="serialNumber"
+              id="serialNumber"
+            />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="7" [nzXs]="24" nzRequired nzFor="purchaseDate">
+            Data de Aquisição
+          </nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Data de compra">
+            <nz-date-picker
+              id="purchaseDate"
+              formControlName="purchaseDate"
+              class="w-full"
+              nzFormat="dd/MM/yyyy"
+            >
+            </nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="7" [nzXs]="24" nzRequired nzFor="idItemType">
+            Tipo de item
+          </nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Tipo de item inválido">
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              nzPlaceHolder="Selecione o tipo de item"
+              formControlName="idItemType"
+              id="idItemType"
+            >
+              <nz-option
+                *ngFor="let itemType of itemTypes"
+                [nzLabel]="itemType.name!"
+                [nzValue]="itemType.id!"
+              ></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </fieldset>
+    </form>
+  </nz-modal>
+  <nz-modal
+    #itemViewModal
+    [(nzVisible)]="viewActionOpened"
+    (nzOnCancel)="handleCloseViewModal()"
+    [nzStyle]="modalStyle"
+    [nzFooter]="null"
+  >
+    <nz-page-header class="site-page-header" *nzModalContent>
+      <nz-page-header-title
+        >{{ itemViewed.titleModel?.name }}</nz-page-header-title
+      >
+
+      <nz-page-header-content>
+        <div nz-row>
+          <div class="content">
+            <nz-descriptions nzSize="small" [nzColumn]="1">
+              <nz-descriptions-item nzTitle="Data de Compra" [nzSpan]="1">
+                {{ itemViewed.purchaseDate | date: 'dd/MM/yyyy' }}
+              </nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Número de Série" [nzSpan]="1">
+                {{ itemViewed.serialNumber }}
+              </nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Tipo de Item" [nzSpan]="1">
+                {{ itemViewed.itemTypeModel?.name }}
+              </nz-descriptions-item>
+            </nz-descriptions>
+          </div>
+        </div>
+      </nz-page-header-content>
+    </nz-page-header>
+  </nz-modal>
+</nz-card>

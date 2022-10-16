@@ -63,7 +63,7 @@
     (nzOnCancel)="handleCloseModalForm()"
     (nzOnOk)="handleSubmitTitle()"
     [nzStyle]="modalStyle"
-    [nzOkText]="currentAction === 'new' ? 'Cadastrar' : 'Editar'"
+    [nzOkText]="currentAction === 'new' ? 'Cadastrar' : 'Salvar'"
     [nzOkDisabled]="titleForm.invalid"
     [nzOkLoading]="isFetching"
     [nzCancelDisabled]="isFetching"
@@ -211,7 +211,7 @@
     [nzFooter]="null"
   >
     <nz-page-header class="site-page-header" *nzModalContent>
-      <nz-page-header-title>Título {{ titleViewed.name }}</nz-page-header-title>
+      <nz-page-header-title>{{ titleViewed.name }}</nz-page-header-title>
 
       <nz-page-header-subtitle>{{ titleViewed.year | date: 'yyyy' }}</nz-page-header-subtitle>
 
@@ -224,7 +224,7 @@
           <div class="content">
             <nz-descriptions nzSize="small" [nzColumn]="1">
               <nz-descriptions-item nzTitle="Diretor" [nzSpan]="1">
-                {{ titleViewed.idDirector }}
+                {{ titleViewed.directorModel?.name }}
               </nz-descriptions-item>
               <nz-descriptions-item nzTitle="Atores" [nzSpan]="1">
                 {{ getActorsName(titleViewed) }}

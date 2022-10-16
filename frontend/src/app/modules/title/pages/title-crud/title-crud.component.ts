@@ -154,7 +154,6 @@ export class TitleCrudComponent implements OnInit {
 
   handleSubmitTitle(): void {
     this.isFetching = true;
-    console.log(this.currentAction);
     this.currentAction == 'new' ? this.newTitle() : this.editTitle();
   }
 
@@ -215,9 +214,11 @@ export class TitleCrudComponent implements OnInit {
 
   private populateFormFields(title: Title): void {
     this.titleForm.patchValue(title);
+    this.titleForm.get('idDirector')?.setValue(title.directorModel?.id);
+    this.titleForm.get('idClass')?.setValue(title.classModel?.id);
     this.transferActors.forEach((actor) => {
       if (
-        title.actorIds?.find((findedActor) => findedActor.id == actor['key'])
+        title.actorsModel?.find((findedActor) => findedActor.id == actor['key'])
       ) {
         actor.direction = 'right';
       }
@@ -251,7 +252,7 @@ export class TitleCrudComponent implements OnInit {
   }
 
   getActorsName(title: Title): string {
-    const actorsNameArray = title.actorIds?.map((actor) => actor.name);
+    const actorsNameArray = title.actorsModel?.map((actor) => actor.name);
     return actorsNameArray!.join(', ');
   }
 }
