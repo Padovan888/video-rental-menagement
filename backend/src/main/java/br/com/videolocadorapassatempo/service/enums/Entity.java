@@ -6,7 +6,8 @@ public enum Entity {
     DIRECTOR("Diretor"),
     CLASS("Classe"),
     TITLE("Título"),
-    ITEM("Item");
+    ITEM("Item"),
+    CUSTOMER("Cliente");
 
     private final String name;
 

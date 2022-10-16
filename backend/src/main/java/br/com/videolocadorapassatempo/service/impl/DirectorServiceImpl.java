@@ -1,7 +1,7 @@
 package br.com.videolocadorapassatempo.service.impl;
 
 import br.com.videolocadorapassatempo.model.DirectorModel;
-import br.com.videolocadorapassatempo.repository.DirectorRespository;
+import br.com.videolocadorapassatempo.repository.DirectorRepository;
 import br.com.videolocadorapassatempo.repository.TitleRepository;
 import br.com.videolocadorapassatempo.service.DirectorService;
 import br.com.videolocadorapassatempo.service.dto.DirectorDto;
@@ -20,7 +20,7 @@ import java.util.List;
 @Transactional
 public class DirectorServiceImpl implements DirectorService {
 
-    private final DirectorRespository directorRespository;
+    private final DirectorRepository directorRepository;
 
     private final TitleRepository titleRepository;
 
@@ -28,32 +28,32 @@ public class DirectorServiceImpl implements DirectorService {
 
     @Transactional(readOnly = true)
     public List<DirectorDto> findAll() {
-        return directorMapper.toDto(directorRespository.findAll());
+        return directorMapper.toDto(directorRepository.findAll());
     }
 
     @Transactional(readOnly = true)
     public DirectorDto findById(Long idDirector) {
-        DirectorModel directorModel = directorRespository.findById(idDirector)
+        DirectorModel directorModel = directorRepository.findById(idDirector)
                 .orElseThrow(() -> new EntityNotFoundException(EntityNotFoundException.getMessageError(Entity.DIRECTOR.getName(), idDirector)));
 
         return directorMapper.toDto(directorModel);
     }
 
     public DirectorDto create(DirectorDto directorDto) {
-        return directorMapper.toDto(directorRespository.save(directorMapper.toEntity(directorDto)));
+        return directorMapper.toDto(directorRepository.save(directorMapper.toEntity(directorDto)));
     }
 
     public DirectorDto update(DirectorDto directorDto) {
-        if(!directorRespository.existsById(directorDto.getId())) {
+        if(!directorRepository.existsById(directorDto.getId())) {
             throw new EntityNotFoundException(EntityNotFoundException.getMessageError(Entity.DIRECTOR.getName(), directorDto.getId()));
         }
 
-        return directorMapper.toDto(directorRespository.save(directorMapper.toEntity(directorDto)));
+        return directorMapper.toDto(directorRepository.save(directorMapper.toEntity(directorDto)));
     }
 
     @Transactional(readOnly = true)
     private void restrictionsToDelete(Long idDirector) {
-        if(!directorRespository.existsById(idDirector)) {
+        if(!directorRepository.existsById(idDirector)) {
             throw new EntityNotFoundException(EntityNotFoundException.getMessageError(Entity.DIRECTOR.getName(), idDirector));
         }
 
@@ -64,7 +64,7 @@ public class DirectorServiceImpl implements DirectorService {
 
     public void deleteById(Long idDirector) {
         restrictionsToDelete(idDirector);
-        directorRespository.deleteById(idDirector);
+        directorRepository.deleteById(idDirector);
     }
 
 }
