@@ -2,7 +2,7 @@ package br.com.videolocadorapassatempo.service.impl;
 
 import br.com.videolocadorapassatempo.repository.ActorRepository;
 import br.com.videolocadorapassatempo.repository.ClassRepository;
-import br.com.videolocadorapassatempo.repository.DirectorRespository;
+import br.com.videolocadorapassatempo.repository.DirectorRepository;
 import br.com.videolocadorapassatempo.repository.TitleRepository;
 import br.com.videolocadorapassatempo.service.TitleService;
 import br.com.videolocadorapassatempo.service.dto.ActorTitleDto;
@@ -22,7 +22,7 @@ public class TitleServiceImpl implements TitleService {
 
     private final TitleRepository titleRepository;
 
-    private final DirectorRespository directorRespository;
+    private final DirectorRepository directorRepository;
 
     private final ClassRepository classRepository;
 
@@ -42,7 +42,7 @@ public class TitleServiceImpl implements TitleService {
     }
 
     public void existsDirectorById(Long idDirector) {
-        if (!directorRespository.existsById(idDirector)) {
+        if (!directorRepository.existsById(idDirector)) {
             throw new EntityException("Diretor de id = " + idDirector + " não encontrado!");
         }
     }
