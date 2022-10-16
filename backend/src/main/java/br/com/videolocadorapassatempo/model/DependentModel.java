@@ -7,19 +7,17 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-@Table(name = "customer")
+@Table(name = "dependent")
 @Getter
 @Setter
 @NoArgsConstructor
-public class CustomerModel implements Serializable {
+public class DependentModel implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_customer")
-    @SequenceGenerator(name = "sequence_customer", sequenceName = "sequence_customer", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_dependent")
+    @SequenceGenerator(name = "sequence_dependent", sequenceName = "sequence_dependent", allocationSize = 1)
     private Long id;
 
     @Column(name = "registration_number", nullable = false)
@@ -37,16 +35,8 @@ public class CustomerModel implements Serializable {
     @Column(name = "active", nullable = false)
     private Boolean active;
 
-    @Column(name = "cpf", nullable = false)
-    private String cpf;
-
-    @Column(name = "address", nullable = false)
-    private String address;
-
-    @Column(name = "telephone", nullable = false)
-    private String telephone;
-
-    @OneToMany(mappedBy = "customerModel", fetch = FetchType.EAGER)
-    private List<DependentModel> dependentModel = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_customer", referencedColumnName = "id", nullable = false)
+    private CustomerModel customerModel;
 
 }

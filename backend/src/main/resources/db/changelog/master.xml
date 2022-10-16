@@ -12,5 +12,7 @@
         <include file="db/changelog/files/20220820122905_create_table_title.xml"></include>
         <include file="db/changelog/files/20220822222535_create_table_item_type.xml"></include>
         <include file="db/changelog/files/20220823182430_create_table_item.xml"></include>
+        <include file="db/changelog/files/20221015225945_create_table_customer.xml"></include>
+        <include file="db/changelog/files/20221016143420_create_table_dependent.xml"></include>
 
 </databaseChangeLog>

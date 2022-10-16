@@ -7,7 +7,8 @@ public enum Entity {
     CLASS("Classe"),
     TITLE("Título"),
     ITEM("Item"),
-    CUSTOMER("Cliente");
+    CUSTOMER("Cliente"),
+    DEPENDENT("Dependente");
 
     private final String name;
 

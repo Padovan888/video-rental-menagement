@@ -1,5 +1,6 @@
 package br.com.videolocadorapassatempo.service.dto;
 
+import br.com.videolocadorapassatempo.model.DependentModel;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.br.CPF;
@@ -10,6 +11,7 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -50,5 +52,7 @@ public class CustomerDto implements Serializable {
     @Size(min = 9, message = "O campo telefone deve possuir no mínimo 9 caracteres!")
     @Size(max = 14, message = "O campo telefone deve possuir no máximo 14 caracteres!")
     private String telephone;
+
+    private List<DependentDto> dependentModel;
 
 }
