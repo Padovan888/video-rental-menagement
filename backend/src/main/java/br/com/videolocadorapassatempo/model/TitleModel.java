@@ -5,7 +5,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class TitleModel implements Serializable {
     private String name;
 
     @Column(name = "year", nullable = false)
-    private LocalDate year;
+    private Integer year;
 
     @Column(name = "synopsis", nullable = false)
     private String synopsis;
@@ -32,11 +31,11 @@ public class TitleModel implements Serializable {
     @Column(name = "category", nullable = false)
     private String category;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_director", referencedColumnName = "id", nullable = false)
     private DirectorModel directorModel;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_class", referencedColumnName = "id", nullable = false)
     private ClassModel classModel;
 

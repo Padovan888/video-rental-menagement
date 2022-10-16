@@ -7,8 +7,10 @@ import br.com.videolocadorapassatempo.repository.TitleRepository;
 import br.com.videolocadorapassatempo.service.TitleService;
 import br.com.videolocadorapassatempo.service.dto.ActorTitleDto;
 import br.com.videolocadorapassatempo.service.dto.TitleDto;
+import br.com.videolocadorapassatempo.service.dto.ViewTitleDto;
 import br.com.videolocadorapassatempo.service.exception.EntityException;
 import br.com.videolocadorapassatempo.service.mapper.TitleMapper;
+import br.com.videolocadorapassatempo.service.mapper.ViewTitleMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,30 +30,32 @@ public class TitleServiceImpl implements TitleService {
 
     private final TitleMapper titleMapper;
 
-    public List<TitleDto> findAll() {
-        return titleMapper.toDto(titleRepository.findAll());
+    private final ViewTitleMapper viewTitleMapper;
+
+    public List<ViewTitleDto> findAll() {
+        return viewTitleMapper.toDto(titleRepository.findAll());
     }
 
-    public TitleDto findById(Long id) {
-        return titleMapper.toDto(titleRepository.findById(id)
-               .orElseThrow(() -> new EntityException("Título de id = " + id + " não encontrado!")));
+    public ViewTitleDto findById(Long id) {
+        return viewTitleMapper.toDto(titleRepository.findById(id)
+                .orElseThrow(() -> new EntityException("Título de id = " + id + " não encontrado!")));
     }
 
     public void existsDirectorById(Long idDirector) {
-        if(!directorRespository.existsById(idDirector)) {
+        if (!directorRespository.existsById(idDirector)) {
             throw new EntityException("Diretor de id = " + idDirector + " não encontrado!");
         }
     }
 
     public void existsClassById(Long idClass) {
-        if(!classRepository.existsById(idClass)) {
+        if (!classRepository.existsById(idClass)) {
             throw new EntityException("Classe de id = " + idClass + " não encontrada!");
         }
     }
 
     public void existsActorsById(List<ActorTitleDto> actorsIds) {
         actorsIds.stream().forEach(actorId -> {
-            if(!actorRepository.existsById(actorId.getIdActor())) {
+            if (!actorRepository.existsById(actorId.getIdActor())) {
                 throw new EntityException("Ator de id = " + actorId + " não encontrado!");
             }
         });

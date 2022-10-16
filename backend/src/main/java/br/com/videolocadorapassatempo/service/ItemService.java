@@ -1,14 +1,15 @@
 package br.com.videolocadorapassatempo.service;
 
 import br.com.videolocadorapassatempo.service.dto.ItemDto;
+import br.com.videolocadorapassatempo.service.dto.ViewItemDto;
 
 import java.util.List;
 
 public interface ItemService {
 
-    public List<ItemDto> findAll();
+    public List<ViewItemDto> findAll();
 
-    public ItemDto findById(Long id);
+    public ViewItemDto findById(Long id);
 
     public ItemDto create(ItemDto itemDto);
 

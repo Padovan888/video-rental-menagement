@@ -14,7 +14,7 @@
             <column name="name" type="varchar(50)">
                 <constraints nullable="false"></constraints>
             </column>
-            <column name="year" type="date">
+            <column name="year" type="integer">
                 <constraints nullable="false"></constraints>
             </column>
             <column name="synopsis" type="text">
