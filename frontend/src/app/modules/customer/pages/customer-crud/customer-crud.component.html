@@ -1,0 +1,365 @@
+<nz-card class="mt-4">
+  <nz-page-header class="site-page-header" nzBackIcon>
+    <nz-breadcrumb nz-page-header-breadcrumb>
+      <nz-breadcrumb-item>Locadora de Filmes</nz-breadcrumb-item>
+      <nz-breadcrumb-item>Gerência de Clientes</nz-breadcrumb-item>
+    </nz-breadcrumb>
+    <nz-avatar
+      nz-page-header-avatar
+      nzSrc="https://avatars0.githubusercontent.com/u/22736418?s=88&v=4"
+    ></nz-avatar>
+    <nz-page-header-title>Clientes</nz-page-header-title>
+    <nz-page-header-subtitle>Clientes cadastrados</nz-page-header-subtitle>
+    <nz-page-header-extra>
+      <nz-space>
+        <button
+          *nzSpaceItem
+          nz-button
+          nzType="primary"
+          (click)="handleNewCustomer()"
+          [disabled]="isFetching"
+        >
+          Novo Cliente
+        </button>
+      </nz-space>
+    </nz-page-header-extra>
+  </nz-page-header>
+
+  <ng-container class="container px-4">
+    <nz-skeleton [nzActive]="true" *ngIf="isFetching"></nz-skeleton>
+    <nz-table #customerList [nzData]="customers" [hidden]="isFetching">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Nome</th>
+          <th>Nº Registro</th>
+          <th>Ativo</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-template ngFor let-data [ngForOf]="customerList.data">
+          <tr>
+            <ng-container>
+              <td [(nzExpand)]="data.expand"></td>
+              <td>
+                <span
+                  nz-icon
+                  *ngIf="data.gender === 'M'"
+                  nzType="man"
+                  nzTheme="outline"
+                  class="text-blue-500"
+                ></span>
+                <span
+                  nz-icon
+                  *ngIf="data.gender === 'F'"
+                  nzType="woman"
+                  nzTheme="outline"
+                  class="text-pink-500"
+                ></span>
+                {{ data.name }}
+              </td>
+              <td>{{ data.registrationNumber }}</td>
+              <td>
+                <span
+                  *ngIf="data.active; else inactive"
+                  nz-icon
+                  nzType="check-circle"
+                  nzTheme="outline"
+                  class="text-green-500"
+                ></span>
+                <ng-template #inactive>
+                  <span
+                    nz-icon
+                    nzType="close-circle"
+                    nzTheme="outline"
+                    class="text-red-500"
+                  ></span>
+                </ng-template>
+              </td>
+              <td>
+                <a (click)="handleNewDependent(data)">Cadastrar Dependente</a>
+                <nz-divider nzType="vertical"></nz-divider>
+                <a (click)="handleView(data)">Visualizar</a>
+                <nz-divider nzType="vertical"></nz-divider>
+                <a (click)="handleEditCustomer(data)">Editar</a>
+                <nz-divider nzType="vertical"></nz-divider>
+                <a (click)="handleToggleActivateCustomer(data)">
+                  <span *ngIf="data.active">Desativar</span>
+                  <span *ngIf="!data.active">Ativar</span>
+                </a>
+                <nz-divider nzType="vertical"></nz-divider>
+                <a
+                  nz-popconfirm
+                  nzPopconfirmTitle="Tem certeza que deseja Remover?"
+                  (nzOnConfirm)="handleDeleteCustomer(data.id!)"
+                >
+                  Excluir
+                </a>
+              </td>
+            </ng-container>
+          </tr>
+          <tr [nzExpand]="data.expand!">
+            <nz-table
+              #dependentsList
+              [nzData]="data.dependentModel!"
+              [nzFrontPagination]="false"
+              [nzShowPagination]="false"
+            >
+              <thead>
+                <tr>
+                  <th>Nome Dependente</th>
+                  <th>Nº Registro</th>
+                  <th>Ativo</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of dependentsList.data">
+                  <ng-container>
+                    <td>
+                      <span
+                        nz-icon
+                        *ngIf="data.gender === 'M'"
+                        nzType="man"
+                        nzTheme="outline"
+                        class="text-blue-500"
+                      ></span>
+                      <span
+                        nz-icon
+                        *ngIf="data.gender === 'F'"
+                        nzType="woman"
+                        nzTheme="outline"
+                        class="text-pink-500"
+                      ></span>
+                      {{ data.name }}
+                    </td>
+                    <td>{{ data.registrationNumber }}</td>
+                    <td>
+                      <span
+                        *ngIf="data.active; else inactive"
+                        nz-icon
+                        nzType="check-circle"
+                        nzTheme="outline"
+                        class="text-green-500"
+                      ></span>
+                      <ng-template #inactive>
+                        <span
+                          nz-icon
+                          nzType="close-circle"
+                          nzTheme="outline"
+                          class="text-red-500"
+                        ></span>
+                      </ng-template>
+                    </td>
+                    <td>
+                      <a (click)="handleView(data)">Visualizar</a>
+                      <nz-divider nzType="vertical"></nz-divider>
+                      <a (click)="handleEditDependent(data)">Editar</a>
+                      <nz-divider nzType="vertical"></nz-divider>
+                      <a (click)="handleToggleActivateDependent(data)">
+                        <span *ngIf="data.active">Desativar</span>
+                        <span *ngIf="!data.active">Ativar</span>
+                      </a>
+                      <nz-divider nzType="vertical"></nz-divider>
+                      <a
+                        nz-popconfirm
+                        nzPopconfirmTitle="Tem certeza que deseja Remover?"
+                        (nzOnConfirm)="handleDeleteDependent(data)"
+                      >
+                        Excluir
+                      </a>
+                    </td>
+                  </ng-container>
+                </tr>
+              </tbody>
+            </nz-table>
+          </tr>
+        </ng-template>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <nz-modal
+    #customerFormModal
+    [(nzVisible)]="formActionOpened"
+    [nzTitle]="
+      currentAction === 'new'
+        ? !handlingDependent
+          ? 'Cadastrar Cliente'
+          : 'Cadastrar Dependente'
+        : !handlingDependent
+        ? 'Editando Cliente'
+        : 'Editando Dependente'
+    "
+    (nzOnCancel)="handleCloseModalForm()"
+    (nzOnOk)="handleSubmitCustomer()"
+    [nzStyle]="modalStyle"
+    [nzOkText]="currentAction === 'new' ? 'Cadastrar' : 'Salvar'"
+    [nzOkDisabled]="customerForm.invalid"
+    [nzOkLoading]="isFetching"
+    [nzCancelDisabled]="isFetching"
+  >
+    <div nz-form *nzModalContent>
+      <form [formGroup]="customerForm">
+        <fieldset [disabled]="isFetching">
+          <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="name">
+              Nome
+            </nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Nome inválido">
+              <input nz-input formControlName="name" id="name" />
+            </nz-form-control>
+          </nz-form-item>
+  
+          <ng-container *ngIf="!handlingDependent">
+            <nz-form-item>
+              <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="telephone">
+                Telefone
+              </nz-form-label>
+              <nz-form-control
+                [nzSm]="14"
+                [nzXs]="24"
+                nzErrorTip="Telefone inválido"
+              >
+                <input
+                  nz-input
+                  formControlName="telephone"
+                  id="telephone"
+                  mask="(00) 0000-0000||(00) 0 0000-0000"
+                />
+              </nz-form-control>
+            </nz-form-item>
+  
+            <nz-form-item>
+              <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="cpf">
+                CPF
+              </nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="CPF inválido">
+                <input
+                  nz-input
+                  formControlName="cpf"
+                  id="cpf"
+                  mask="CPF_CNPJ"
+                  maxlength="14"
+                />
+              </nz-form-control>
+            </nz-form-item>
+  
+            <nz-form-item>
+              <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="address">
+                Endereço
+              </nz-form-label>
+              <nz-form-control
+                [nzSm]="14"
+                [nzXs]="24"
+                nzErrorTip="Endereço inválido"
+              >
+                <input nz-input formControlName="address" id="address" />
+              </nz-form-control>
+            </nz-form-item>
+          </ng-container>
+  
+          <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="birthDate">
+              Data de Nascimento
+            </nz-form-label>
+            <nz-form-control
+              [nzSm]="14"
+              [nzXs]="24"
+              nzErrorTip="Data de nascimento"
+            >
+              <nz-date-picker
+                id="birthDate"
+                formControlName="birthDate"
+                class="w-full"
+                nzFormat="dd/MM/yyyy"
+              >
+              </nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+  
+          <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="gender">
+              Sexo
+            </nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Sexo inválido">
+              <nz-radio-group formControlName="gender">
+                <label nz-radio nzValue="M">Masculino</label>
+                <label nz-radio nzValue="F">Feminino</label>
+              </nz-radio-group>
+            </nz-form-control>
+          </nz-form-item>
+        </fieldset>
+      </form>
+      <nz-form-item *ngIf="!handlingDependent && currentAction === 'new'">
+        <nz-form-label
+          [nzSm]="8"
+          [nzXs]="24"
+          nzFor="registerDependentAfterRegister"
+          class="mr-1"
+        >
+          Cadastrar Dependente?
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <nz-switch [(ngModel)]="registerDependentAfterRegister"></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </nz-modal>
+  <nz-modal
+    #customerViewModal
+    [(nzVisible)]="viewActionOpened"
+    (nzOnCancel)="handleCloseViewModal()"
+    [nzStyle]="modalStyle"
+    [nzFooter]="null"
+  >
+    <nz-page-header
+      class="site-page-header"
+      *nzModalContent
+      [nzBackIcon]="customerViewed.gender === 'M' ? 'man' : 'woman'"
+    >
+      <nz-page-header-title>
+        {{ customerViewed.name }}
+      </nz-page-header-title>
+
+      <nz-page-header-content>
+        <div nz-row>
+          <div class="content">
+            <nz-descriptions nzSize="small" [nzColumn]="1">
+              <nz-descriptions-item nzTitle="Data de Nascimento" [nzSpan]="1">
+                {{ customerViewed.birthDate | date: "dd/MM/yyyy" }}
+              </nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Número de Registro" [nzSpan]="1">
+                {{ customerViewed.registrationNumber }}
+              </nz-descriptions-item>
+              <nz-descriptions-item
+                *ngIf="customerViewed.cpf"
+                nzTitle="CPF"
+                [nzSpan]="1"
+              >
+                {{ customerViewed.cpf | mask: "CPF_CNPJ" }}
+              </nz-descriptions-item>
+              <nz-descriptions-item
+                *ngIf="customerViewed.address"
+                nzTitle="Endereço"
+                [nzSpan]="1"
+              >
+                {{ customerViewed.address }}
+              </nz-descriptions-item>
+              <nz-descriptions-item
+                *ngIf="customerViewed.telephone"
+                nzTitle="Telefone"
+                [nzSpan]="1"
+              >
+                {{
+                  customerViewed.telephone
+                    | mask: "(00) 0000-0000||(00) 0 0000-0000"
+                }}
+              </nz-descriptions-item>
+            </nz-descriptions>
+          </div>
+        </div>
+      </nz-page-header-content>
+    </nz-page-header>
+  </nz-modal>
+</nz-card>

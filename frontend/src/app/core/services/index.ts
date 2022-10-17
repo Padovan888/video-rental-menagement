@@ -5,3 +5,5 @@ export * from './utils.service';
 export * from './title.service';
 export * from './item.service';
 export * from './item-type.service';
+export * from './customer.service';
+export * from './dependent.service';

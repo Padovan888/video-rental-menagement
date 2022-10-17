@@ -4,3 +4,5 @@ export * from './class.model';
 export * from './title.model';
 export * from './item.model';
 export * from './item-type.model';
+export * from './customer.model';
+export * from './dependent.model';
