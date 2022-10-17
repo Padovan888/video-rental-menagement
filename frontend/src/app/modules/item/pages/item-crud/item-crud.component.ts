@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ItemService, ItemTypeService, TitleService, UtilsService } from 'src/app/core';
+import {
+  ItemService,
+  ItemTypeService,
+  TitleService,
+  UtilsService,
+} from 'src/app/core';
 import { Item, ItemType, Title } from 'src/app/shared';
 
 @Component({
@@ -24,7 +29,7 @@ export class ItemCrudComponent implements OnInit {
   titles: Title[] = [];
   itemTypes: ItemType[] = [];
 
-  itemTypeName: string = "";
+  itemTypeName: string = '';
 
   constructor(
     private itemService: ItemService,
