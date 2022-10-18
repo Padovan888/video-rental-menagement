@@ -1,12 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import {
-  CustomerService,
-  DependentService,
-  TitleService,
-  UtilsService,
-} from 'src/app/core';
-import { Customer, Dependent, Title } from 'src/app/shared';
+import { CustomerService, DependentService, UtilsService } from 'src/app/core';
+import { Customer, Dependent, removeAccents } from 'src/app/shared';
 import { Person } from 'src/app/shared/models/person.model';
 
 @Component({
@@ -30,6 +25,7 @@ export class CustomerCrudComponent implements OnInit {
   customerToExpandAfterRefetch: number | undefined;
 
   customers: Customer[] = [];
+  searchCustomer: string = '';
 
   constructor(
     private customerService: CustomerService,
@@ -118,7 +114,13 @@ export class CustomerCrudComponent implements OnInit {
 
   handleToggleActivateCustomer(customer: Customer): void {
     this.customerService.toggleActivateCustomer(customer).subscribe({
-      next: (editedCustomer) => {},
+      next: () => {
+        const customerActiveBeforeUpdate = customer.active;
+        customer.active = !customerActiveBeforeUpdate;
+        customer.dependentModel?.forEach(
+          (dependent) => (dependent.active = !customerActiveBeforeUpdate)
+        );
+      },
       error: (error) => {
         Object.keys(error.error).forEach((message: string) => {
           this.utilsService.showErrorMessage(error.error[message]);
@@ -160,7 +162,7 @@ export class CustomerCrudComponent implements OnInit {
 
   handleToggleActivateDependent(dependent: Dependent): void {
     this.dependentService.toggleActivateDependent(dependent).subscribe({
-      next: (editedDependent) => {},
+      next: () => (dependent.active = !dependent.active),
       error: (error) => {
         Object.keys(error.error).forEach((message: string) => {
           this.utilsService.showErrorMessage(error.error[message]);
@@ -215,7 +217,7 @@ export class CustomerCrudComponent implements OnInit {
     this.customerService.create(this.customerForm.value).subscribe({
       next: (newCustomer) => {
         this.actionsForSuccess();
-        if(this.registerDependentAfterRegister) {
+        if (this.registerDependentAfterRegister) {
           this.handleNewDependent(newCustomer);
         }
       },
@@ -304,5 +306,13 @@ export class CustomerCrudComponent implements OnInit {
 
   handleCloseViewModal(): void {
     this.viewActionOpened = false;
+  }
+
+  get filteredCustomers(): Customer[] {
+    return this.customers.filter((customer) =>
+      removeAccents(`${customer.name} ${customer.registrationNumber}`)
+        .toLocaleLowerCase()
+        .indexOf(removeAccents(this.searchCustomer).toLocaleLowerCase()) !== -1
+    );
   }
 }

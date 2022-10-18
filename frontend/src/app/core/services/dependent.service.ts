@@ -12,8 +12,7 @@ export class DependentService extends CrudService<Dependent> {
     super(http, 'dependente');
   }
 
-  toggleActivateDependent(customer: Dependent): Observable<Dependent> {
-    customer.active = !customer.active;
-    return this.http.put<Dependent>(`${this.apiUrl}`, customer);
+  toggleActivateDependent(dependent: Dependent): Observable<Dependent> {
+    return this.http.patch<Dependent>(`${this.apiUrl}/${dependent.id}`, {});
   }
 }

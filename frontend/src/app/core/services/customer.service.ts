@@ -13,7 +13,6 @@ export class CustomerService extends CrudService<Customer> {
   }
 
   toggleActivateCustomer(customer: Customer): Observable<Customer> {
-    customer.active = !customer.active;
-    return this.http.put<Customer>(`${this.apiUrl}`, customer);
+    return this.http.patch<Customer>(`${this.apiUrl}/${customer.id}`, {});
   }
 }
