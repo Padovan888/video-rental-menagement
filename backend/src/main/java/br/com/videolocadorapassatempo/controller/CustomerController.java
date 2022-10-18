@@ -45,6 +45,13 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.OK).body(customerService.update(customerDto));
     }
 
+    @PatchMapping("/{id}")
+    @ApiOperation("Muda o atribudo ativo de um cliente cadastrado no sistema pelo id")
+    public ResponseEntity<Void> changeActive(@PathVariable Long id) {
+        customerService.changeActive(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
     @DeleteMapping("/{id}")
     @ApiOperation("Exclui um cliente do sistema pelo id")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {

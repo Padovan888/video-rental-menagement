@@ -16,4 +16,6 @@ public interface CustomerService {
 
     void deleteById(Long idCustomer);
 
+    void changeActive(Long idCustomer);
+
 }

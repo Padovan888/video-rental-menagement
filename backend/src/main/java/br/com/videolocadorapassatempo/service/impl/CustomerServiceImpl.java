@@ -1,12 +1,14 @@
 package br.com.videolocadorapassatempo.service.impl;
 
 import br.com.videolocadorapassatempo.repository.CustomerRepository;
+import br.com.videolocadorapassatempo.repository.DependentRepository;
 import br.com.videolocadorapassatempo.service.CustomerService;
 import br.com.videolocadorapassatempo.service.dto.CustomerDto;
 import br.com.videolocadorapassatempo.service.enums.Entity;
 import br.com.videolocadorapassatempo.service.exception.EntityBadRequestException;
 import br.com.videolocadorapassatempo.service.exception.EntityNotFoundException;
 import br.com.videolocadorapassatempo.service.mapper.CustomerMapper;
+import br.com.videolocadorapassatempo.service.mapper.DependentMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +24,11 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
 
+    private final DependentRepository dependentRepository;
+
     private final CustomerMapper customerMapper;
+
+    private final DependentMapper dependentMapper;
 
     public List<CustomerDto> findAll() {
         return customerMapper.toDto(customerRepository.findAll());
@@ -86,6 +92,20 @@ public class CustomerServiceImpl implements CustomerService {
         validateGender(customerDto);
         verifyActive(customerDto);
         return customerMapper.toDto(customerRepository.save(customerMapper.toEntity(customerDto)));
+    }
+
+    private void changeLinkedDependents(CustomerDto customerDto) {
+        customerDto.getDependentModel().forEach(dependent -> {
+            dependent.setActive(customerDto.getActive());
+            dependentRepository.save(dependentMapper.toEntity(dependent));
+        });
+    }
+
+    public void changeActive(Long idCustomer) {
+        CustomerDto customerDto = findById(idCustomer);
+        customerDto.setActive(!customerDto.getActive());
+        changeLinkedDependents(customerDto);
+        customerRepository.save(customerMapper.toEntity(customerDto));
     }
 
     public void deleteById(Long idCustomer) {
