@@ -26,8 +26,14 @@
   </nz-page-header>
 
   <ng-container class="container px-4">
+    <nz-input-group [nzSuffix]="suffixIconSearch" class="my-4">
+      <input type="text" nz-input nz-size="large" [(ngModel)]="searchCustomer" placeholder="Pesquisar por Cliente" />
+    </nz-input-group>
+    <ng-template #suffixIconSearch>
+      <span nz-icon nzType="search"></span>
+    </ng-template>
     <nz-skeleton [nzActive]="true" *ngIf="isFetching"></nz-skeleton>
-    <nz-table #customerList [nzData]="customers" [hidden]="isFetching">
+    <nz-table #customerList [nzData]="filteredCustomers" [hidden]="isFetching">
       <thead>
         <tr>
           <th></th>
@@ -210,10 +216,15 @@
               <input nz-input formControlName="name" id="name" />
             </nz-form-control>
           </nz-form-item>
-  
+
           <ng-container *ngIf="!handlingDependent">
             <nz-form-item>
-              <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="telephone">
+              <nz-form-label
+                [nzSm]="8"
+                [nzXs]="24"
+                nzRequired
+                nzFor="telephone"
+              >
                 Telefone
               </nz-form-label>
               <nz-form-control
@@ -229,12 +240,16 @@
                 />
               </nz-form-control>
             </nz-form-item>
-  
+
             <nz-form-item>
               <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="cpf">
                 CPF
               </nz-form-label>
-              <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="CPF inválido">
+              <nz-form-control
+                [nzSm]="14"
+                [nzXs]="24"
+                nzErrorTip="CPF inválido"
+              >
                 <input
                   nz-input
                   formControlName="cpf"
@@ -244,7 +259,7 @@
                 />
               </nz-form-control>
             </nz-form-item>
-  
+
             <nz-form-item>
               <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="address">
                 Endereço
@@ -258,7 +273,7 @@
               </nz-form-control>
             </nz-form-item>
           </ng-container>
-  
+
           <nz-form-item>
             <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="birthDate">
               Data de Nascimento
@@ -277,7 +292,7 @@
               </nz-date-picker>
             </nz-form-control>
           </nz-form-item>
-  
+
           <nz-form-item>
             <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="gender">
               Sexo
