@@ -45,6 +45,13 @@ public class DependentController {
         return ResponseEntity.status(HttpStatus.OK).body(dependentService.update(dependentDto));
     }
 
+    @PatchMapping("/{id}")
+    @ApiOperation("Altera o atributo ativo de um dependente cadastrado no sistema pelo id")
+    public ResponseEntity<Void> changeActive(@PathVariable Long id) {
+        dependentService.changeActive(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
     @DeleteMapping("/{id}")
     @ApiOperation("Exclui um dependente do sistema pelo id")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {

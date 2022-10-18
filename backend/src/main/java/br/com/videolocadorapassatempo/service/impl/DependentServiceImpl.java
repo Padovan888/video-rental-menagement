@@ -117,6 +117,12 @@ public class DependentServiceImpl implements DependentService {
         return dependentMapper.toDto(dependentRepository.save(dependentMapper.toEntity(dependentDto)));
     }
 
+    public void changeActive(Long idDependent) {
+        DependentDto dependentDto = findById(idDependent);
+        dependentDto.setActive(!dependentDto.getActive());
+        dependentRepository.save(dependentMapper.toEntity(dependentDto));
+    }
+
     public void deleteById(Long idDependent) {
         existsDependentById(idDependent);
         dependentRepository.deleteById(idDependent);
