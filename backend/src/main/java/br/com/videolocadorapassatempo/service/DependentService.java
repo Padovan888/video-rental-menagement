@@ -14,6 +14,8 @@ public interface DependentService {
 
     DependentDto update(DependentDto dependentDto);
 
+    void changeActive(Long idDependent);
+
     void deleteById(Long idDependent);
 
 }

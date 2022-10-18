@@ -46,7 +46,7 @@ public class CustomerController {
     }
 
     @PatchMapping("/{id}")
-    @ApiOperation("Muda o atribudo ativo de um cliente cadastrado no sistema pelo id")
+    @ApiOperation("Altera o atribudo ativo de um cliente cadastrado no sistema pelo id")
     public ResponseEntity<Void> changeActive(@PathVariable Long id) {
         customerService.changeActive(id);
         return ResponseEntity.status(HttpStatus.OK).build();
