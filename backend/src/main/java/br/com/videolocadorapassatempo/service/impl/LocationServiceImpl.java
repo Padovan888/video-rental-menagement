@@ -132,7 +132,13 @@ public class LocationServiceImpl implements LocationService {
         setCurrentDate(locationDto);
         checkFieldsMustNull(locationDto);
         calculateValueAndExpectedReturnDate(locationDto);
-        return locationMapper.toDto(locationRepository.save(locationMapper.toEntity(locationDto)));
+        LocationModel locationModel = locationMapper.toEntity(locationDto);
+        if (Objects.isNull(locationDto.getIdDependent())) {
+            locationModel.setDependentModel(null);
+        } else {
+            locationModel.setCustomerModel(null);
+        }
+        return locationMapper.toDto(locationRepository.save(locationModel));
     }
 
     public LocationDto update(LocationDto locationDto) {
@@ -142,7 +148,13 @@ public class LocationServiceImpl implements LocationService {
         setCurrentDate(locationDto);
         checkFieldsMustNull(locationDto);
         calculateValueAndExpectedReturnDate(locationDto);
-        return locationMapper.toDto(locationRepository.save(locationMapper.toEntity(locationDto)));
+        LocationModel locationModel = locationMapper.toEntity(locationDto);
+        if (Objects.isNull(locationDto.getIdDependent())) {
+            locationModel.setDependentModel(null);
+        } else {
+            locationModel.setCustomerModel(null);
+        }
+        return locationMapper.toDto(locationRepository.save(locationModel));
     }
 
     public LocationDto customerDebitRecords(Long idCustomer) {
