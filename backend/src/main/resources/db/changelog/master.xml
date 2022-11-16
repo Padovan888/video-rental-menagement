@@ -14,5 +14,6 @@
         <include file="db/changelog/files/20220823182430_create_table_item.xml"></include>
         <include file="db/changelog/files/20221015225945_create_table_customer.xml"></include>
         <include file="db/changelog/files/20221016143420_create_table_dependent.xml"></include>
+        <include file="db/changelog/files/20221115151130_create_table_location.xml"></include>
 
 </databaseChangeLog>

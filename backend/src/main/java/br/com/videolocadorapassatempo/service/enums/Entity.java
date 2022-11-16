@@ -8,7 +8,8 @@ public enum Entity {
     TITLE("Título"),
     ITEM("Item"),
     CUSTOMER("Cliente"),
-    DEPENDENT("Dependente");
+    DEPENDENT("Dependente"),
+    LOCATION("Locação");
 
     private final String name;
 
