@@ -7,12 +7,14 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerDto implements Serializable {
+public class FindByIdCustomerDto implements Serializable {
 
     private Long id;
 
@@ -35,5 +37,7 @@ public class CustomerDto implements Serializable {
     private String type;
 
     private Long idMember;
+
+    private List<CustomerDto> dependents = new ArrayList<>();
 
 }

@@ -1,7 +1,10 @@
 package br.com.videolocadorapassatempo.controller;
 
 import br.com.videolocadorapassatempo.service.CustomerService;
-import br.com.videolocadorapassatempo.service.dto.CustomerDto;
+import br.com.videolocadorapassatempo.service.dto.CreateDependentDto;
+import br.com.videolocadorapassatempo.service.dto.CreateMemberDto;
+import br.com.videolocadorapassatempo.service.dto.FindByIdCustomerDto;
+import br.com.videolocadorapassatempo.service.dto.ViewCustomerDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -23,32 +26,44 @@ public class CustomerController {
 
     @GetMapping
     @ApiOperation("Retorna todos os clientes cadastrados no sistema")
-    public ResponseEntity<List<CustomerDto>> findAll() {
+    public ResponseEntity<List<ViewCustomerDto>> findAll() {
         return ResponseEntity.status(HttpStatus.OK).body(customerService.findAll());
     }
 
     @GetMapping("/{id}")
     @ApiOperation("Retorna um cliente cadastrado no sistema pelo id")
-    public ResponseEntity<CustomerDto> findById(@PathVariable Long id) {
+    public ResponseEntity<FindByIdCustomerDto> findById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(customerService.findById(id));
     }
 
-    @PostMapping
-    @ApiOperation("Cadastra um cliente no sistema")
-    public ResponseEntity<CustomerDto> create(@Valid @RequestBody CustomerDto customerDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(customerService.create(customerDto));
+    @PostMapping("/membro")
+    @ApiOperation("Cadastra um membro no sistema")
+    public ResponseEntity<CreateMemberDto> createMember(@Valid @RequestBody CreateMemberDto createMemberDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(customerService.createMember(createMemberDto));
     }
 
-    @PutMapping
-    @ApiOperation("Atualiza um cliente no sistema")
-    public ResponseEntity<CustomerDto> update(@Valid @RequestBody CustomerDto customerDto) {
-        return ResponseEntity.status(HttpStatus.OK).body(customerService.update(customerDto));
+    @PutMapping("/membro")
+    @ApiOperation("Atualiza um membro no sistema")
+    public ResponseEntity<CreateMemberDto> updateMember(@Valid @RequestBody CreateMemberDto createMemberDto) {
+        return ResponseEntity.status(HttpStatus.OK).body(customerService.updateMember(createMemberDto));
     }
 
-    @PatchMapping("/{id}")
+    @PostMapping("/dependente")
+    @ApiOperation("Cadastra um dependente no sistema")
+    public ResponseEntity<CreateDependentDto> createMember(@Valid @RequestBody CreateDependentDto createDependentDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(customerService.createDependent(createDependentDto));
+    }
+
+    @PutMapping("/dependente")
+    @ApiOperation("Atualiza um dependente no sistema")
+    public ResponseEntity<CreateDependentDto> updateMember(@Valid @RequestBody CreateDependentDto createDependentDto) {
+        return ResponseEntity.status(HttpStatus.OK).body(customerService.updateDependent(createDependentDto));
+    }
+
+    @PatchMapping("/{idCustomer}")
     @ApiOperation("Altera o atribudo ativo de um cliente cadastrado no sistema pelo id")
-    public ResponseEntity<Void> changeActive(@PathVariable Long id) {
-        customerService.changeActive(id);
+    public ResponseEntity<Void> changeActive(@PathVariable Long idCustomer) {
+        customerService.changeActive(idCustomer);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
