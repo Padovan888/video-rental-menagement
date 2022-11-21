@@ -27,13 +27,19 @@
                 <constraints nullable="false"></constraints>
             </column>
             <column name="cpf" type="varchar(11)">
-                <constraints nullable="false"></constraints>
+                <constraints nullable="true"></constraints>
             </column>
             <column name="address" type="text">
-                <constraints nullable="false"></constraints>
+                <constraints nullable="true"></constraints>
             </column>
             <column name="telephone" type="varchar(14)">
+                <constraints nullable="true"></constraints>
+            </column>
+            <column name="type" type="text">
                 <constraints nullable="false"></constraints>
+            </column>
+            <column name="id_member" type="bigint">
+                <constraints nullable="true" foreignKeyName="fk_customer_id_member"></constraints>
             </column>
         </createTable>
     </changeSet>

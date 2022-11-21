@@ -1,18 +1,25 @@
 package br.com.videolocadorapassatempo.service;
 
-import br.com.videolocadorapassatempo.service.dto.CustomerDto;
+import br.com.videolocadorapassatempo.service.dto.CreateDependentDto;
+import br.com.videolocadorapassatempo.service.dto.CreateMemberDto;
+import br.com.videolocadorapassatempo.service.dto.FindByIdCustomerDto;
+import br.com.videolocadorapassatempo.service.dto.ViewCustomerDto;
 
 import java.util.List;
 
 public interface CustomerService {
 
-    List<CustomerDto> findAll();
+    List<ViewCustomerDto> findAll();
 
-    CustomerDto findById(Long idCustomer);
+    FindByIdCustomerDto findById(Long idCustomer);
 
-    CustomerDto create(CustomerDto customerDto);
+    CreateMemberDto createMember(CreateMemberDto createMemberDto);
 
-    CustomerDto update(CustomerDto customerDto);
+    CreateMemberDto updateMember(CreateMemberDto createMemberDto);
+
+    CreateDependentDto createDependent(CreateDependentDto createDependentDto);
+
+    CreateDependentDto updateDependent(CreateDependentDto createDependentDto);
 
     void changeActive(Long idCustomer);
 
