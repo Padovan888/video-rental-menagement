@@ -11,6 +11,8 @@ public interface CustomerService {
 
     List<ViewCustomerDto> findAll();
 
+    List<ViewCustomerDto> findAllActive();
+
     FindByIdCustomerDto findById(Long idCustomer);
 
     CreateMemberDto createMember(CreateMemberDto createMemberDto);

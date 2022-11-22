@@ -30,6 +30,12 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.OK).body(customerService.findAll());
     }
 
+    @GetMapping("/ativo")
+    @ApiOperation("Retorna todos os clientes ativos cadastrados no sistema")
+    public ResponseEntity<List<ViewCustomerDto>> findAllActive() {
+        return ResponseEntity.status(HttpStatus.OK).body(customerService.findAllActive());
+    }
+
     @GetMapping("/{id}")
     @ApiOperation("Retorna um cliente cadastrado no sistema pelo id")
     public ResponseEntity<FindByIdCustomerDto> findById(@PathVariable Long id) {

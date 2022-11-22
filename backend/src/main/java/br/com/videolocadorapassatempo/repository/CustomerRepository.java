@@ -2,6 +2,7 @@ package br.com.videolocadorapassatempo.repository;
 
 import br.com.videolocadorapassatempo.model.CustomerModel;
 import br.com.videolocadorapassatempo.service.dto.CustomerDto;
+import br.com.videolocadorapassatempo.service.dto.ViewCustomerDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -44,5 +45,14 @@ public interface CustomerRepository extends JpaRepository<CustomerModel, Long> {
     @Transactional
     @Query(value = "delete from customer where id_member = :idMember", nativeQuery = true)
     void deleteDependentsByIdMember(@Param("idMember") Long idMember);
+
+    @Query("select new br.com.videolocadorapassatempo.service.dto.ViewCustomerDto(c.id, " +
+            "c.registrationNumber, " +
+            "c.name, " +
+            "c.birthDate, " +
+            "c.gender, " +
+            "c.active, " +
+            "c.type) from CustomerModel c where c.active = true")
+    List<ViewCustomerDto> findAllActive();
 
 }
