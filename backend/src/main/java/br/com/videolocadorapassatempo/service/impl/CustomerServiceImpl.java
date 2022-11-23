@@ -186,6 +186,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public List<ViewMemberDto> findAllMembers() {
         List<CustomerModel> members = customerRepository.findAllByType("M");
+        System.out.println(members.size());
         return fillAllDependents(members); 
     }
 
