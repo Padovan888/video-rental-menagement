@@ -56,7 +56,10 @@ public interface CustomerRepository extends JpaRepository<CustomerModel, Long> {
             "c.active, " +
             "c.type) from CustomerModel c where c.active = true")
     List<ViewCustomerDto> findAllActive();
-
-    List<CustomerModel> findAllByType(String type);
+    
+    @Query(
+        value = "select * from customer where customer.type = :type",
+        nativeQuery = true)
+    List<CustomerModel> findAllByType(@Param("type") String type);
 
 }
