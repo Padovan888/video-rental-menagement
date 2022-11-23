@@ -11,21 +11,6 @@
             <column name="id" type="bigint">
                 <constraints primaryKey="true"></constraints>
             </column>
-            <column name="id_customer" type="bigint">
-                <constraints nullable="true"
-                             foreignKeyName="fk_location_id_customer"
-                             references="customer(id)"></constraints>
-            </column>
-            <column name="id_dependent" type="bigint">
-                <constraints nullable="true"
-                             foreignKeyName="fk_location_id_dependent"
-                             references="dependent(id)"></constraints>
-            </column>
-            <column name="id_item" type="bigint">
-                <constraints nullable="false"
-                             foreignKeyName="fk_location_id_item"
-                             references="item(id)"></constraints>
-            </column>
             <column name="lease_date" type="date">
                 <constraints nullable="false"></constraints>
             </column>
@@ -43,6 +28,16 @@
             </column>
             <column name="paid" type="boolean">
                 <constraints nullable="false"></constraints>
+            </column>
+            <column name="id_customer" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="fk_location_id_customer"
+                             references="customer(id)"></constraints>
+            </column>
+            <column name="id_item" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="fk_location_id_item"
+                             references="item(id)"></constraints>
             </column>
         </createTable>
     </changeSet>

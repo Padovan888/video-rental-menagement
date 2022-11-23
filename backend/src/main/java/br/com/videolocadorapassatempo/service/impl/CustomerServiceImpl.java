@@ -37,6 +37,10 @@ public class CustomerServiceImpl implements CustomerService {
         return viewCustomerMapper.toDto(customerRepository.findAll());
     }
 
+    public List<ViewCustomerDto> findAllActive() {
+        return customerRepository.findAllActive();
+    }
+
     public FindByIdCustomerDto findById(Long idCustomer) {
         existsCustomerById(idCustomer);
         FindByIdCustomerDto findByIdCustomerDto = new FindByIdCustomerDto();
