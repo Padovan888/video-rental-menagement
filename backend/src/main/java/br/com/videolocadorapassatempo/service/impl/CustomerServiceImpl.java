@@ -15,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -180,6 +181,24 @@ public class CustomerServiceImpl implements CustomerService {
             return;
         }
         customerRepository.deleteById(idCustomer);
+    }
+
+    @Override
+    public List<ViewMemberDto> findAllMembers() {
+        List<CustomerModel> members = customerRepository.findAllByType("M");
+        return fillAllDependents(members); 
+    }
+
+    private List<ViewMemberDto> fillAllDependents(List<CustomerModel> members) {
+        List<ViewMemberDto> list = new ArrayList<>();
+        for (CustomerModel item : members) {
+            ViewMemberDto res = new ViewMemberDto();
+            BeanUtils.copyProperties(item, res);
+            List<CustomerDto> dependents = customerRepository.findDependentsByidMember(item.getId());
+            res.setDependents(dependents);
+            list.add(res);
+        }
+        return list;
     }
 
 }

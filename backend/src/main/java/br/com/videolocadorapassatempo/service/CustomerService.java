@@ -4,6 +4,7 @@ import br.com.videolocadorapassatempo.service.dto.CreateDependentDto;
 import br.com.videolocadorapassatempo.service.dto.CreateMemberDto;
 import br.com.videolocadorapassatempo.service.dto.FindByIdCustomerDto;
 import br.com.videolocadorapassatempo.service.dto.ViewCustomerDto;
+import br.com.videolocadorapassatempo.service.dto.ViewMemberDto;
 
 import java.util.List;
 
@@ -14,6 +15,8 @@ public interface CustomerService {
     List<ViewCustomerDto> findAllActive();
 
     FindByIdCustomerDto findById(Long idCustomer);
+
+    List<ViewMemberDto> findAllMembers();
 
     CreateMemberDto createMember(CreateMemberDto createMemberDto);
 

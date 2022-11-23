@@ -5,6 +5,7 @@ import br.com.videolocadorapassatempo.service.dto.CreateDependentDto;
 import br.com.videolocadorapassatempo.service.dto.CreateMemberDto;
 import br.com.videolocadorapassatempo.service.dto.FindByIdCustomerDto;
 import br.com.videolocadorapassatempo.service.dto.ViewCustomerDto;
+import br.com.videolocadorapassatempo.service.dto.ViewMemberDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +41,12 @@ public class CustomerController {
     @ApiOperation("Retorna um cliente cadastrado no sistema pelo id")
     public ResponseEntity<FindByIdCustomerDto> findById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(customerService.findById(id));
+    }
+
+    @GetMapping("/membro")
+    @ApiOperation("Retorna todos os membros cadastrados no sistema")
+    public ResponseEntity<List<ViewMemberDto>> findAllMembers() {
+        return ResponseEntity.status(HttpStatus.OK).body(customerService.findAllMembers());
     }
 
     @PostMapping("/membro")
