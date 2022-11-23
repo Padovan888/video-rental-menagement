@@ -2,6 +2,7 @@ package br.com.videolocadorapassatempo.service.impl;
 
 import br.com.videolocadorapassatempo.model.CustomerModel;
 import br.com.videolocadorapassatempo.repository.CustomerRepository;
+import br.com.videolocadorapassatempo.repository.LocationRepository;
 import br.com.videolocadorapassatempo.service.CustomerService;
 import br.com.videolocadorapassatempo.service.dto.*;
 import br.com.videolocadorapassatempo.service.enums.Entity;
@@ -26,6 +27,8 @@ import java.util.Random;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
+
+    private final LocationRepository locationRepository;
 
     private final ViewCustomerMapper viewCustomerMapper;
 
@@ -172,8 +175,15 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.changeActiveDependent(idCustomer, !customerModel.get().getActive());
     }
 
+    private void checkCustomerHaveLocation(Long idCustomer) {
+        if (locationRepository.customerHaveLocation(idCustomer)) {
+            throw new EntityBadRequestException("O cliente de id = " + idCustomer + " possui locações!");
+        }
+    }
+
     public void deleteById(Long idCustomer) {
         existsCustomerById(idCustomer);
+        checkCustomerHaveLocation(idCustomer);
         if (customerRepository.existsMemberById(idCustomer)) {
             customerRepository.deleteDependentsByIdMember(idCustomer);
             customerRepository.deleteById(idCustomer);

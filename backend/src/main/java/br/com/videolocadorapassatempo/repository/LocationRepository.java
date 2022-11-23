@@ -43,4 +43,7 @@ public interface LocationRepository extends JpaRepository<LocationModel, Long> {
             "l.paid = true")
     Boolean isLocationPaid(@Param("idLocation") Long idLocation);
 
+    @Query("select count(*) > 0 from LocationModel l where l.customerModel.id = :idCustomer")
+    Boolean customerHaveLocation(@Param("idCustomer") Long idCustomer);
+
 }
