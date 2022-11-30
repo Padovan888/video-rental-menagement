@@ -2,6 +2,7 @@ package br.com.videolocadorapassatempo.controller;
 
 import br.com.videolocadorapassatempo.service.LocationService;
 import br.com.videolocadorapassatempo.service.dto.LocationDto;
+import br.com.videolocadorapassatempo.service.dto.ViewLocationDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ public class LocationController {
 
     @GetMapping
     @ApiOperation("Retorna todas as locações cadastradas no sistema")
-    public ResponseEntity<List<LocationDto>> findAll() {
+    public ResponseEntity<List<ViewLocationDto>> findAll() {
         return ResponseEntity.status(HttpStatus.OK).body(locationService.findAll());
     }
 

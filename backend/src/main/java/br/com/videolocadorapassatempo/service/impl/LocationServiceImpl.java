@@ -7,10 +7,12 @@ import br.com.videolocadorapassatempo.repository.ItemRepository;
 import br.com.videolocadorapassatempo.repository.LocationRepository;
 import br.com.videolocadorapassatempo.service.LocationService;
 import br.com.videolocadorapassatempo.service.dto.LocationDto;
+import br.com.videolocadorapassatempo.service.dto.ViewLocationDto;
 import br.com.videolocadorapassatempo.service.enums.Entity;
 import br.com.videolocadorapassatempo.service.exception.EntityBadRequestException;
 import br.com.videolocadorapassatempo.service.exception.EntityNotFoundException;
 import br.com.videolocadorapassatempo.service.mapper.LocationMapper;
+import br.com.videolocadorapassatempo.service.mapper.ViewLocationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +33,10 @@ public class LocationServiceImpl implements LocationService {
 
     private final LocationMapper locationMapper;
 
-    public List<LocationDto> findAll() {
-        return locationMapper.toDto(locationRepository.findAll());
+    private final ViewLocationMapper viewLocationMapper;
+
+    public List<ViewLocationDto> findAll() {
+        return viewLocationMapper.toDto(locationRepository.findAll());
     }
 
     public LocationDto findById(Long idLocation) {
