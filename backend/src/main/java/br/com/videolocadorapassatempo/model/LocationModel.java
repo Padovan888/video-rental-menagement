@@ -40,7 +40,7 @@ public class LocationModel implements Serializable {
     @JoinColumn(name = "id_customer", referencedColumnName = "id", nullable = false)
     private CustomerModel customerModel;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_item", referencedColumnName = "id", nullable = false)
     private ItemModel itemModel;
 
