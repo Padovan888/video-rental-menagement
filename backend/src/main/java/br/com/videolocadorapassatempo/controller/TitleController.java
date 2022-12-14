@@ -53,4 +53,22 @@ public class TitleController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/pesquisar/nome/{name}")
+    @ApiOperation("Retorna os títulos cadastrados no sistema pelo nome")
+    public ResponseEntity<List<ViewTitleDto>> findByName(@PathVariable String name) {
+        return ResponseEntity.status(HttpStatus.OK).body(titleService.findByName(name));
+    }
+
+    @GetMapping("/pesquisar/categoria/{category}")
+    @ApiOperation("Retorna os títulos cadastrados no sistema pela categoria")
+    public ResponseEntity<List<ViewTitleDto>> findByCategory(@PathVariable String category) {
+        return ResponseEntity.status(HttpStatus.OK).body(titleService.findByCategory(category));
+    }
+
+    @GetMapping("/pesquisar/nomeator/{nameActor}")
+    @ApiOperation("Retorna os títulos cadastrados no sistema pelo nome do ator")
+    public ResponseEntity<List<ViewTitleDto>> findByNameActor(@PathVariable String nameActor) {
+        return ResponseEntity.status(HttpStatus.OK).body(titleService.findByNameActor(nameActor));
+    }
+
 }
