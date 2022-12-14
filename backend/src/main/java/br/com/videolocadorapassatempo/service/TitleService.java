@@ -17,4 +17,10 @@ public interface TitleService {
 
     public void deleteById(Long id);
 
+    List<ViewTitleDto> findByName(String name);
+
+    List<ViewTitleDto> findByCategory(String category);
+
+    List<ViewTitleDto> findByNameActor(String nameActor);
+
 }

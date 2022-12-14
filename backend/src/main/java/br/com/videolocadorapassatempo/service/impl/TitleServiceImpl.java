@@ -83,4 +83,16 @@ public class TitleServiceImpl implements TitleService {
         titleRepository.deleteById(id);
     }
 
+    public List<ViewTitleDto> findByName(String name) {
+        return viewTitleMapper.toDto(titleRepository.findByName(name));
+    }
+
+    public List<ViewTitleDto> findByCategory(String category) {
+        return viewTitleMapper.toDto(titleRepository.findByCategory(category));
+    }
+
+    public List<ViewTitleDto> findByNameActor(String nameActor) {
+        return viewTitleMapper.toDto(titleRepository.findByNameActor(nameActor));
+    }
+
 }
